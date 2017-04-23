@@ -1,2 +1,0 @@
-Recordatorio para subir a github
-git status, git add *, git commit, git push -u origin master
