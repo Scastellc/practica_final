@@ -12,7 +12,9 @@
 
 				<!--	 					Estilos							-->
 		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-		
+		<?php 
+			include_once "funciones.php"
+		?>
 </head>
 <body>
 
@@ -32,7 +34,7 @@
 								<a href="index.php">Inicio</a>
 							</li>
 							<li>
-								<a href="tablero.php">Jugar</a>
+								<a href="partida.php">Jugar</a>
 							</li>
 							<li>
 								<a href="noticias.php">Noticias</a>
