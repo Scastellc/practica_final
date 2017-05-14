@@ -9,4 +9,6 @@ La carpeta de noticias tiene las imagenes de las noticias subidas en la pagina n
 La carpeta js tiene todos los scripts de JavaScript.
 La pagina partida es donde ahora se encuentra el tablero y se puede "jugar".
 
+La pagina esta colgada en chessline.tk
+
 Proyecto final 
