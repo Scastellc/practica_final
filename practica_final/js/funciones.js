@@ -1,33 +1,33 @@
-/*
+
+// Funcion para crear el tablero
 function tablero(){
+
 	// Creamos un array para la anotacion de cada casilla
 	var letras = ["a", "b", "c", "d", "e", "f", "g", "h"];
-	
+
 	$(document).ready(function(){
 		// Hacemos dos for para crear el tablero de 8 x 8
-		for(var a = 8; a>=1; a--){
-			for(var i = 1; i<=8; i++){
+		for(var a = 8; a >= 1; a--){
+			for (var i = 1; i <= 8; i++){
 				if(a%2==0){
-					// Le agregamos la casilla con su identificador y la clase trash para arrastrar y soltar
-					if(i%2==0){
-						$("#casillas").html('<div class="blanco" id="c'.letras[i].a.'"><span class="trash" id="'.letras[i].a.'"></span></div>');
+					if(a%2==0){
+						$("#casillas").html("<div class='blanco' id='c" + letras[i] + a + "'><span class='trash' id='" + letras[i] + a + "'></span></div>");
 					}else{
-						$("#casillas").html('<div class="negro" id="c'.letras[i].a.'"><span class="trash" id="'.letras[i].a.'"></span></div>');
+						$("#casillas").html("<div class='negro' id='c" + letras[i] + a + "'><span class='trash' id='" + letras[i] + a + "'></span></div>");
 					}
-				}
-				else{					
-					if(i%2==0){		
-						$("#casillas").html('<div class="negro" id="c'.letras[i].a.'"><span class="trash" id="'.letras[i].a.'"></span></div>');						
-					}else{						
-						$("#casillas").html('<div class="blanco" id="c'.letras[i].a.'"><span class="trash" id="'.letras[i].a.'"></span></div>');						
+				}else{
+					if(i%2==0){
+						$("#casillas").html("<div class='negro' id='c" + letras[i] + a + "'><span class='trash' id='" + letras[i] + a + "'></span></div>");
+					}else{
+						$("#casillas").html("<div class='blanco' id='c" + letras[i] + a + "'><span class='trash' id='" + letras[i] + a + "'></span></div>");
 					}
 				}
 			}
 		}
 	});
 }
-*/
 
+// Funcion para colocar las piezas en el tablero
 function piezas(){
 
 	$(document).ready(function(){
@@ -78,7 +78,7 @@ function piezas(){
 	});
 
 }
-
+// Funcion para mover la pieza
 function mover(){
 	$(function(){
 		// Creamos dos variables, una todo lo que esta dentro de las casillas, y otra que es la que puede soltar objetos
@@ -94,15 +94,82 @@ function mover(){
 		   	hoverClass: "dejarPieza",
         	drop: function( event, ui ){				
 	        	
-				var id = $(this).attr("id");//recuperamos el id de donde se soltara la pieza
-				var idprovene = ui.draggable.attr("id");//cogemos el titilo de lo movido	
-				alert(idprovene + " " + id);		
-				ui.draggable.append().appendTo( "#"+id ).show();//colocamos la pieza
+	        	pieza(ui.draggable);
+				
+				// Recuperamos el id de donde se soltara la pieza
+				var id = $(this).attr("id");
+
+				//Cogemos el id de lo movido	
+				var idProviene = ui.draggable.attr("id");
+				
+				// Modificar id original para que se ponga el nuevo idProviene
+				ui.draggable.attr("id", id);
+				
+				alert(idProviene + " " + id);
+
+				ui.draggable.append().appendTo( "#" + id ).show(); //colocamos la pieza
+
 	        }
    		}); 		   
 	});
 }
 
-function jugada(casillas){
-	alert(casillas);
+// Funcion para reconocer que pieza es
+function pieza(ui){
+
+	var img = ui[0].innerHTML;
+	var pieza = img.substr(17,1);
+	var pIni = $(ui).attr("id");
+	//alert(pIni);
+	//console.log(ui);
+	switch(pieza){
+		case "r":
+			moveRey(ui, pIni);
+			break;
+		case "d":
+			moveDama(ui, pIni);
+			
+			break;
+		case "a":
+			moveAlfil(ui, pIni);
+			
+			break;
+		case "c":
+			moveCaballo(ui, pIni);
+			
+			break;	
+		case "t":
+			moveTorre(ui, pIni);
+			
+			break;					
+		default:
+			movePeon(ui, pIni);
+			
+	}
 }
+
+	// Funciones para saber donde pueden mover las piezas
+	function moveRey(ui, pIni){
+		console.log(ui);
+		alert("R" + pIni);
+	}
+	function moveDama(ui, pIni){
+		console.log(ui);
+		alert("D" + pIni);
+	}
+	function moveAlfil(ui, pIni){
+		console.log(ui);
+		alert("A" + pIni);
+	}
+	function moveCaballo(ui, pIni){
+		console.log(ui);
+		alert("C" + pIni);
+	}
+	function moveTorre(ui, pIni){
+		console.log(ui);
+		alert("T" + pIni);
+	}
+	function movePeon(ui, pIni){
+		console.log(ui);
+		alert("Peon" + pIni);
+	}
