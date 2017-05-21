@@ -3,6 +3,11 @@
 	// Funcion para conectar a la base de datos
 	function conexion(){
 		// Conexion a la bd
+		/*
+			Para la base de datos de hostinger
+			La contraseña es la de siempre : alu...
+			$bd = new mysqli("mysql.hostinger.es", "u214754205_salva", "", "u214754205_chess");
+		*/
 		$bd = new mysqli("localhost", "root", "", "ajedrez");
 
 		// Establecemos el conjunto de caracteres uft8
