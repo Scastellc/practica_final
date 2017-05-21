@@ -1,0 +1,2 @@
+Hoy (18) he subido correctamente el fichero de funciones, y voy a tratar de hacer la tabla y todo lo grafico con js.
+De esta forma voy a intentar que todo lo que sea front sea con js y php solo para sessiones y BD.
