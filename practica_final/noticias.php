@@ -2,16 +2,20 @@
 <html>
 <head>
 	<title>Noticias</title>
-		<!--Bootstrap-->
+	<meta charset="utf-8">	
+	<!--Bootstrap-->
 
-		<!-- 			Latest compiled and minified CSS 			-->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- 			Latest compiled and minified CSS 			-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-		<link href="css/styloBasic.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+	<link href="css/styloBasic.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-				<!--	 					Estilos							-->
-		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+			<!--	 					Estilos							-->
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<?php 
+		include_once "php/funciones.php";
+	?>
 </head>
 <body>
 	    <!--		Menu			-->
@@ -30,7 +34,7 @@
 								<a href="index.php">Inicio</a>
 							</li>
 							<li>
-								<a href="tablero.php">Jugar</a>
+								<a href="partida.php">Jugar</a>
 							</li>
 							<li class="active">
 								<a href="noticias.php">Noticias</a>
@@ -42,7 +46,7 @@
 						<div id=divDer class='nav navbar-nav navbar-right'>	
 							
 							<?php			
-								echo "Usuario registrado y eso...";
+								usuario();
 							?>
 				    
 			    		</div>
@@ -63,11 +67,7 @@
 	        	</div>
 	        	<div class="modal-body">
 	        		<div class="text-center">
-	        			        			
-			        	<?php 
-			        		echo "Como funciona y eso...";
-						?>
-	        		
+			        	<p> "Como funciona y eso..." </p>
 	        		</div>
 	        	</div>
 	        	<div class="modal-footer modal-right">
@@ -240,7 +240,7 @@
 	      			<div class="col-md-8">
 	      				<p> 
 	      					<?php
-	      						echo "Hola";
+	      						hora();
 							?>	
 						</p>
 	      				<a href="#">Terms of Service</a> | <a href="#">Privacy</a> 

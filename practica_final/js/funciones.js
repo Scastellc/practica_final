@@ -81,8 +81,12 @@ function piezas(){
 // Funcion para mover la pieza
 function mover(){
 	$(function(){
+		
 		// Creamos dos variables, una todo lo que esta dentro de las casillas, y otra que es la que puede soltar objetos
 	    var casilla = $( "#casillas" ), $move = $( ".trash" );
+	    
+	    // Variable para saber si es posible la jugada
+	    var posible = false;
 
 	    $( "li", casilla ).draggable({
  			helper: "clone",
@@ -93,10 +97,11 @@ function mover(){
 	    $move.droppable({
 		   	hoverClass: "dejarPieza",
         	drop: function( event, ui ){				
-	        	
-	        	pieza(ui.draggable);
-				
+
 				// Recuperamos el id de donde se soltara la pieza
+	        	
+	        	pieza(ui.draggable, id);
+				
 				var id = $(this).attr("id");
 
 				//Cogemos el id de lo movido	
@@ -105,9 +110,10 @@ function mover(){
 				// Modificar id original para que se ponga el nuevo idProviene
 				ui.draggable.attr("id", id);
 				
-				alert(idProviene + " " + id);
-
-				ui.draggable.append().appendTo( "#" + id ).show(); //colocamos la pieza
+				//alert(idProviene + " " + id);
+				//if (posible == true) {
+					ui.draggable.append().appendTo( "#" + id ).show(); //colocamos la pieza
+			//	}
 
 	        }
    		}); 		   
@@ -115,7 +121,7 @@ function mover(){
 }
 
 // Funcion para reconocer que pieza es
-function pieza(ui){
+function pieza(ui, posible){
 
 	var img = ui[0].innerHTML;
 	var pieza = img.substr(17,1);
@@ -143,7 +149,8 @@ function pieza(ui){
 			
 			break;					
 		default:
-			movePeon(ui, pIni);
+			movePeon(ui, pIni, posible);
+			console.log(movePeon);
 			
 	}
 }
@@ -169,7 +176,27 @@ function pieza(ui){
 		console.log(ui);
 		alert("T" + pIni);
 	}
-	function movePeon(ui, pIni){
-		console.log(ui);
-		alert("Peon" + pIni);
+	function movePeon(ui, pIni, posible){
+		//console.log(ui);
+		//alert("Peon " + pIni);
+
+		if (pIni.substr(1,1) == 2) {
+			alert("esta en segunda");
+			console.log(pIni.substr(1,1));
+			
+			// Esta deberia ser la variable que se pase por parametro
+			posible = true;
+			return (true);
+
+		}
+		/*else if (pIni.substr(1,1) == 7) {
+			alert("esta en septima");
+			console.log(pIni.substr(1,1));
+
+		}else{
+			alert("ya no esta en segunda");
+		}
+		*/
+		return posible;
+
 	}

@@ -5,26 +5,26 @@
 
 	<title>Ajedrez</title>
 
-		<!-- 					jQuery library 							-->
-		<link href="css/estiloTablero.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<!-- 					jQuery library 							-->
+	<link href="css/estiloTablero.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
 	<!-- 					Jquery						 			-->
-		<script src="js/jquery-1.7.2.min.js"></script>
-		<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
-		<script src="js/jquery.ui.touch-punch.js"></script>
-		<script type="text/javascript" src="js/funciones.js"></script>
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+	<script src="js/jquery.ui.touch-punch.js"></script>
+	<script type="text/javascript" src="js/funciones.js"></script>
 	<!-- 				Latest compiled and minified CSS 			-->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 
 	<!--	 					Estilos								-->
-		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-		<link href="css/styloBasic.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<link href="css/styloBasic.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
 
-		<?php 
-			include_once "funciones.php"
-		?>
+	<?php 
+		include_once "php/funciones.php";
+	?>
 </head>
 <body>
  	
@@ -57,7 +57,7 @@
 						<div id=divDer class='nav navbar-nav navbar-right'>	
 							
 							<?php			
-								echo "Usuario registrado y eso...";
+								usuario();
 							?>
 				    
 			    		</div>
@@ -78,11 +78,7 @@
 	        	</div>
 	        	<div class="modal-body">
 	        		<div class="text-center">
-	        			        			
-			        	<?php 
-			        		echo "Como funciona y eso...";
-						?>
-	        		
+			        	<p> "Como funciona y eso..." </p>
 	        		</div>
 	        	</div>
 	        	<div class="modal-footer modal-right">
@@ -91,6 +87,20 @@
 	      	</div>
 	    </div>
 	</div>
+	
+	<?php 
+		// Le indico que si la session no esta iniciada que la inicie vacia
+		if (empty($_SESSION['cliente'])) {	
+			$_SESSION['cliente'] = new user();
+			$_SESSION['cliente'] -> setnombre("");	
+		}
+
+		// Si esta vacia mostrara el invitado
+		if ($_SESSION['cliente'] -> getnombre() == "") {	
+			header("Location: login.php");
+		}
+	?>
+
 	<div id="juego" class="container"> 
 		<div class="row">
 	   		<div class="col-lg-12">
@@ -100,14 +110,21 @@
 						<ul id="casillas">
 
 						<?php 
-							crearTablero()	
+							crearTablero();
 						?>
+
+						<script type="text/javascript">
+							//tablero();
+						</script>
+
 						</ul><hr/>
 					</div>
 				</div>		
 			</div>
 		</div>		
 	</div>
+	
+
 	
 
 
@@ -122,7 +139,7 @@
 	      			<div class="col-md-8">
 	      				<p> 
 	      					<?php
-	      						echo "Hola";
+	      						hora();
 							?>	
 						</p>
 	      				<a href="#">Terms of Service</a> | <a href="#">Privacy</a> 
