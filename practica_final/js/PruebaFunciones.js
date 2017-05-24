@@ -22,23 +22,23 @@ function tablero(){
 	//var letras = ["","a", "b", "c", "d", "e", "f", "g", "h"];
 
 		// Hacemos dos for para crear el tablero de 8 x 8
-		for(var a = 8; a >= 1; a--){
-			for (var i = 1; i <= 8; i++){
+		for(var y = 8; y >= 1; y--){
+			for (var x = 1; x <= 8; x++){
 				var color = "";
-				if(a%2==0){
-					if(i%2==0){
+				if(y%2==0){
+					if(x%2==0){
 						color = "negro";
 					}else{
 						color = "blanco";
 					}
 				}else{
-					if(i%2==0){
+					if(x%2==0){
 						color = "blanco";	
 					}else{
 						color = "negro";
 					}
 				}
-				$("#casillas").append("<div class='" + color + "' id='" + i+""+a + "'>");
+				$("#casillas").append("<div class='" + color + "' id='" + x+""+y + "'>");
 				// <span class='trash' id='" + letras[i] + a + "'></span></div>
 			}
 		}
@@ -110,12 +110,36 @@ function piezaMarcada($event){
 }
 
 function pieza($event, liPieza){
+
+	// Recupero el nombre de la pieza
 	var img = $event.currentTarget.currentSrc;
 	var pieza = img.substr(49,1);
 
+	// Cogo el id de donde esta la pieza (sin x,y) sino con la notacion normal de ajedrez
 	var pIni = $(liPieza).attr("id");
-	//console.log(pIni);
+
+	// Cogo el id de donde esta la pieza pero esta vez si x,y
+	var pIniXY = $(event.currentTarget.parentNode.parentNode).attr("id");
+	var xIni = pIniXY.substr(0,1);
+	var yIni = pIniXY.substr(1,1);
+
+	// Recupero todas las casillas
+	var divPosibles = $(event.currentTarget.parentNode.parentNode).siblings();
 	
+	// Creo dos arrays para la posicion x-y
+	var x = [];
+	var y = [];
+
+	// Recupero el id de x-y 
+	for (var i = 0; i < divPosibles.length; i++) {
+		var list = [];
+		list.push(divPosibles[i]);
+		//x = $(list[0]).attr("id").substr(1,1);
+		x.push($(list[0]).attr("id").substr(0,1));
+		y.push($(list[0]).attr("id").substr(1,1));
+	}
+	
+	//console.log(" x: " + x + " y: " + y);
 	switch(pieza){
 		case "r":
 			moveRey($event);
@@ -136,7 +160,7 @@ function pieza($event, liPieza){
 			moveTorre($event);		
 			break;					
 		default:
-			movePeon($event);
+			movePeon($event, x, y, xIni, yIni);
 	}
 		
 }
@@ -205,42 +229,13 @@ function pieza(ui){
 }
 	*/
 	
-	function movePeon($event){		
+	function movePeon($event, x, y, xIni, yIni){		
 		
-		var pIni = $(event.currentTarget.parentNode.parentNode).attr("id");
-		var columna = pIni.substr(0,1);
-		var fila = pIni.substr(1,1);
-		console.log(columna);
-		console.log(fila);
-		var divPosibles = $(event.currentTarget.parentNode.parentNode).siblings();
+		console.log(" x: " + x + " y: " + y);
+		console.log(" x: " + xIni + " y: " + yIni);
 		
-		var col = "";
-		for (var i = 0; i < divPosibles.length; i++) {
-			console.log($(divPosibles[i]));
-			/*
-			if ($(hermanos[i]).attr("id") == "18") {
-				alert("ASdfasd");
-				col = hermanos[i].substr(0,1);
-				console.log(col);
-			}
-*/
-		}
-			
 
-		/*
-		var casilla = columna + "3";
-		var uniCasilla = $("#casilla").attr("id");
-		console.log(uniCasilla);
-		
-		if (casilla == "d3") {
-			
-			$(divPosibles).addClass("posibles");
-		}
-		*/
-	}
-/*
-	function peon(x){
-		switch(){
+/*		switch(){
 			case "first":
 				return [[1,2],[1,3]];
 				break;
@@ -251,5 +246,6 @@ function pieza(ui){
 				return [[-2,2],[2,2]]
 				break;
 		}
+*/		
+		
 	}
-*/
