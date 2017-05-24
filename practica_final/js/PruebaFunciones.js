@@ -6,7 +6,8 @@ $(document).ready(function(){
 		//mover();
 
 		$("li img").click(function($event){		
-			pieza($event);
+			piezaMarcada($event);
+			//pieza($event);
 		})
 	});
 
@@ -90,12 +91,9 @@ function piezas(){
  		$("#87").html('<li title="h7" id="h7"><img src="piezas/peonN.png"/></li>');
  
 }
-
-function pieza($event){
-	var img = $event.currentTarget.currentSrc;
-	var pieza = img.substr(49,1);
+// Esta funcion marca o desmarca la pieza que has seleccionado
+function piezaMarcada($event){
 	
-	//console.log($event);
 	var liPieza = $event.currentTarget.parentNode;
 	var divPieza = liPieza.parentNode;
 
@@ -107,6 +105,13 @@ function pieza($event){
 		$("#casillas div").removeClass("dejarPieza")
 		$(divPieza).addClass("dejarPieza");
 	}
+
+	pieza($event, liPieza);
+}
+
+function pieza($event, liPieza){
+	var img = $event.currentTarget.currentSrc;
+	var pieza = img.substr(49,1);
 
 	var pIni = $(liPieza).attr("id");
 	//console.log(pIni);
@@ -141,12 +146,10 @@ function mover(){
 	$(function(){
 		// Creamos dos variables, una todo lo que esta dentro de las casillas, y otra que es la que puede soltar objetos
 	    var casilla = $( "#casillas" ), $move = $( ".trash" );
-
 	    $( "li", casilla ).draggable({
  			helper: "clone",
 	        cursor: "move",
 	    });
-
 	      // Donde se va a soltar
 	    $move.droppable({
 		   	hoverClass: "dejarPieza",
@@ -156,7 +159,6 @@ function mover(){
 				
 				// Recuperamos el id de donde se soltara la pieza
 				var id = $(this).attr("id");
-
 				//Cogemos el id de lo movido	
 				var idProviene = ui.draggable.attr("id");
 				
@@ -164,17 +166,13 @@ function mover(){
 				ui.draggable.attr("id", id);
 				
 				alert(idProviene + " " + id);
-
 				ui.draggable.append().appendTo( "#" + id ).show(); //colocamos la pieza
-
 	        }
    		}); 		   
 	});
 }
-
 // Funcion para reconocer que pieza es
 function pieza(ui){
-
 	var img = ui[0].innerHTML;
 	var pieza = img.substr(17,1);
 	var pIni = $(ui).attr("id");
@@ -205,34 +203,32 @@ function pieza(ui){
 			
 	}
 }
-
 	*/
 	
 	function movePeon($event){		
 		
 		var pIni = $(event.currentTarget.parentNode.parentNode).attr("id");
 		var columna = pIni.substr(0,1);
+		var fila = pIni.substr(1,1);
 		console.log(columna);
-		var divPosibles = $event.currentTarget.parentNode.parentNode;
-		console.log(divPosibles);
-
-		var hermanos = $(divPosibles).siblings().attr("id");
-		console.log(hermanos);
-
+		console.log(fila);
+		var divPosibles = $(event.currentTarget.parentNode.parentNode).siblings();
+		
 		var col = "";
-		for (var i = 0; i < hermanos.length; i++) {
-			//console.log(hermanos[i]);
-			if ($(hermanos[i]).attr("id") == "12") {
+		for (var i = 0; i < divPosibles.length; i++) {
+			console.log($(divPosibles[i]));
+			/*
+			if ($(hermanos[i]).attr("id") == "18") {
 				alert("ASdfasd");
 				col = hermanos[i].substr(0,1);
 				console.log(col);
 			}
-			
+*/
 		}
+			
 
 		/*
 		var casilla = columna + "3";
-
 		var uniCasilla = $("#casilla").attr("id");
 		console.log(uniCasilla);
 		
@@ -248,7 +244,6 @@ function pieza(ui){
 			case "first":
 				return [[1,2],[1,3]];
 				break;
-
 			case "normal":
 				return [[1,1]]
 				break;
