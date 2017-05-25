@@ -6,8 +6,12 @@ $(document).ready(function(){
 		//mover();
 
 		$("li img").click(function($event){		
-			piezaMarcada($event);
-			//pieza($event);
+			
+			//$("li img").bind("click", function($e){
+				//console.log($e);
+				piezaMarcada($event);
+				//pieza($event);
+		//	});
 		})
 	});
 
@@ -48,47 +52,47 @@ function tablero(){
 function piezas(){
 
   		// Piezas blancas
-  		$("#11").html('<li title="a1" id="a1"><img class="torre" src="piezas/torreB.png"/></li>');
- 		$("#21").html('<li title="b1" id="b1"><img src="piezas/caballoB.png"/></li>');
- 		$("#31").html('<li title="c1" id="c1"><img src="piezas/alfilB.png"/></li>');
- 		$("#41").html('<li title="d1" id="d1"><img src="piezas/damaB.png"/></li>');
- 		$("#51").html('<li title="e1" id="e1"><img src="piezas/reyB.png"/></li>');
- 	    $("#61").html('<li title="f1" id="f1"><img src="piezas/alfilB.png"/></li>');
- 		$("#71").html('<li title="g1" id="g1"><img src="piezas/caballoB.png"/></li>');
- 		$("#81").html('<li title="h1" id="h1"><img src="piezas/torreB.png"/></li>');
+  		$("#11").html('<li title="a1" id="a1"><img src="piezas/Btorre.png"/></li>');
+ 		$("#21").html('<li title="b1" id="b1"><img src="piezas/Bcaballo.png"/></li>');
+ 		$("#31").html('<li title="c1" id="c1"><img src="piezas/Balfil.png"/></li>');
+ 		$("#41").html('<li title="d1" id="d1"><img src="piezas/Bdama.png"/></li>');
+ 		$("#51").html('<li title="e1" id="e1"><img src="piezas/Brey.png"/></li>');
+ 	    $("#61").html('<li title="f1" id="f1"><img src="piezas/Balfil.png"/></li>');
+ 		$("#71").html('<li title="g1" id="g1"><img src="piezas/Bcaballo.png"/></li>');
+ 		$("#81").html('<li title="h1" id="h1"><img src="piezas/Btorre.png"/></li>');
  
  			// Peones blancos
  
- 		$("#12").html('<li title="a2" id="a2"><img src="piezas/peonesB.png"/></li>');
- 		$("#22").html('<li title="b2" id="b2"><img src="piezas/peonesB.png"/></li>');
- 		$("#32").html('<li title="c2" id="c2"><img src="piezas/peonesB.png"/></li>');
- 		$("#42").html('<li title="d2" id="d2"><img src="piezas/peonesB.png"/></li>');
- 		$("#52").html('<li title="e2" id="e2"><img src="piezas/peonesB.png"/></li>');
- 	    $("#62").html('<li title="f2" id="f2"><img src="piezas/peonesB.png"/></li>');
- 		$("#72").html('<li title="g2" id="g2"><img src="piezas/peonesB.png"/></li>');
- 		$("#82").html('<li title="h2" id="h2"><img src="piezas/peonesB.png"/></li>');
+ 		$("#12").html('<li title="a2" id="a2"><img src="piezas/Bpeones.png"/></li>');
+ 		$("#22").html('<li title="b2" id="b2"><img src="piezas/Bpeones.png"/></li>');
+ 		$("#32").html('<li title="c2" id="c2"><img src="piezas/Bpeones.png"/></li>');
+ 		$("#42").html('<li title="d2" id="d2"><img src="piezas/Bpeones.png"/></li>');
+ 		$("#52").html('<li title="e2" id="e2"><img src="piezas/Bpeones.png"/></li>');
+ 	    $("#62").html('<li title="f2" id="f2"><img src="piezas/Bpeones.png"/></li>');
+ 		$("#72").html('<li title="g2" id="g2"><img src="piezas/Bpeones.png"/></li>');
+ 		$("#82").html('<li title="h2" id="h2"><img src="piezas/Bpeones.png"/></li>');
  
  		// Piezas Negras
  
- 		$("#18").html('<li title="a8" id="a8"><img src="piezas/torreN.png"/></li>');
- 		$("#28").html('<li title="b8" id="b8"><img src="piezas/caballoN.png"/></li>');
- 		$("#38").html('<li title="c8" id="c8"><img src="piezas/alfilN.png"/></li>');
- 		$("#48").html('<li title="d8" id="d8"><img src="piezas/damaN.png"/></li>');
- 		$("#58").html('<li title="e8" id="e8"><img src="piezas/reyN.png"/></li>');
- 	    $("#68").html('<li title="f8" id="f8"><img src="piezas/alfilN.png"/></li>');
- 		$("#78").html('<li title="g8" id="g8"><img src="piezas/caballoN.png"/></li>');
- 		$("#88").html('<li title="h8" id="h8"><img src="piezas/torreN.png"/></li>');
+ 		$("#18").html('<li title="a8" id="a8"><img src="piezas/Ntorre.png"/></li>');
+ 		$("#28").html('<li title="b8" id="b8"><img src="piezas/Ncaballo.png"/></li>');
+ 		$("#38").html('<li title="c8" id="c8"><img src="piezas/Nalfil.png"/></li>');
+ 		$("#48").html('<li title="d8" id="d8"><img src="piezas/Ndama.png"/></li>');
+ 		$("#58").html('<li title="e8" id="e8"><img src="piezas/Nrey.png"/></li>');
+ 	    $("#68").html('<li title="f8" id="f8"><img src="piezas/Nalfil.png"/></li>');
+ 		$("#78").html('<li title="g8" id="g8"><img src="piezas/Ncaballo.png"/></li>');
+ 		$("#88").html('<li title="h8" id="h8"><img src="piezas/Ntorre.png"/></li>');
  
  			// Peones negros
  
- 		$("#17").html('<li title="a7" id="a7"><img src="piezas/peonN.png"/></li>');
- 		$("#27").html('<li title="b7" id="b7"><img src="piezas/peonN.png"/></li>');
- 		$("#37").html('<li title="c7" id="c7"><img src="piezas/peonN.png"/></li>');
- 		$("#47").html('<li title="d7" id="d7"><img src="piezas/peonN.png"/></li>');
- 		$("#57").html('<li title="e7" id="e7"><img src="piezas/peonN.png"/></li>');
-    	$("#67").html('<li title="f7" id="f7"><img src="piezas/peonN.png"/></li>');
- 		$("#77").html('<li title="g7" id="g7"><img src="piezas/peonN.png"/></li>');
- 		$("#87").html('<li title="h7" id="h7"><img src="piezas/peonN.png"/></li>');
+ 		$("#17").html('<li title="a7" id="a7"><img src="piezas/Npeon.png"/></li>');
+ 		$("#27").html('<li title="b7" id="b7"><img src="piezas/Npeon.png"/></li>');
+ 		$("#37").html('<li title="c7" id="c7"><img src="piezas/Npeon.png"/></li>');
+ 		$("#47").html('<li title="d7" id="d7"><img src="piezas/Npeon.png"/></li>');
+ 		$("#57").html('<li title="e7" id="e7"><img src="piezas/Npeon.png"/></li>');
+    	$("#67").html('<li title="f7" id="f7"><img src="piezas/Npeon.png"/></li>');
+ 		$("#77").html('<li title="g7" id="g7"><img src="piezas/Npeon.png"/></li>');
+ 		$("#87").html('<li title="h7" id="h7"><img src="piezas/Npeon.png"/></li>');
  
 }
 // Esta funcion marca o desmarca la pieza que has seleccionado
@@ -98,11 +102,11 @@ function piezaMarcada($event){
 	var divPieza = liPieza.parentNode;
 
 	// Si no esta pulsado se cambiara de color, si ya lo estaba volvera al color anterior
-	
 	if ($(divPieza).hasClass("dejarPieza") == true) {
-		$(divPieza).removeClass("dejarPieza");	
+		$(divPieza).removeClass("dejarPieza");
 	}else{
-		$("#casillas div").removeClass("dejarPieza")
+		$("#casillas div").removeClass("dejarPieza");
+		$("#casillas div").removeClass("opt");
 		$(divPieza).addClass("dejarPieza");
 	}
 
@@ -113,7 +117,8 @@ function pieza($event, liPieza){
 
 	// Recupero el nombre de la pieza
 	var img = $event.currentTarget.currentSrc;
-	var pieza = img.substr(49,1);
+	//var pieza = img.substr(49,1);
+	var pieza = img.substr(78,1);
 
 	// Cogo el id de donde esta la pieza (sin x,y) sino con la notacion normal de ajedrez
 	var pIni = $(liPieza).attr("id");
@@ -134,31 +139,30 @@ function pieza($event, liPieza){
 	for (var i = 0; i < divPosibles.length; i++) {
 		var list = [];
 		list.push(divPosibles[i]);
-		//x = $(list[0]).attr("id").substr(1,1);
 		x.push($(list[0]).attr("id").substr(0,1));
 		y.push($(list[0]).attr("id").substr(1,1));
 	}
-	
+	console.log(img);
+	console.log(pieza);
+
 	//console.log(" x: " + x + " y: " + y);
 	switch(pieza){
 		case "r":
-			moveRey($event);
+			moveRey($event, x, y, xIni, yIni);
 			break;
 		case "d":
-			moveDama($event);
-			
+			moveDama($event, x, y, xIni, yIni);
 			break;
+			
 		case "a":
-			moveAlfil($event);
-			
-			break;
+			moveAlfil($event, x, y, xIni, yIni);
+			break;			
 		case "c":
-			moveCaballo($event);
-			
-			break;	
+			moveCaballo($event, x, y, xIni, yIni);
+			break;				
 		case "t":
-			moveTorre($event);		
-			break;					
+			moveTorre($event, x, y, xIni, yIni);		
+			break;			
 		default:
 			movePeon($event, x, y, xIni, yIni);
 	}
@@ -228,12 +232,6 @@ function pieza(ui){
 	}
 }
 	*/
-	
-	function movePeon($event, x, y, xIni, yIni){		
-		
-		console.log(" x: " + x + " y: " + y);
-		console.log(" x: " + xIni + " y: " + yIni);
-		
 
 /*		switch(){
 			case "first":
@@ -247,5 +245,57 @@ function pieza(ui){
 				break;
 		}
 */		
+	
+	function movePeon($event, x, y, xIni, yIni){		
 		
+		console.log("x: " + x + " y: " + y);
+		console.log("La pieza es Peon y esta en: x= " + xIni + " y= " + yIni);
+		
+		var img = $event.currentTarget.currentSrc;
+
+		var pIniXY = $(event.currentTarget.parentNode.parentNode).attr("id");
+		console.log(pIniXY);
+
+		if (yIni == 2) {
+			
+			var uno = xIni + 3;
+			var dos = xIni + 4;
+
+			// Si el peon esta en segunda fila
+			if ($("#"+uno).hasClass("opt") == true || $("#"+dos).hasClass("opt") == true) {
+				$("#"+uno).removeClass("opt");
+				$("#"+dos).removeClass("opt");
+			}else{
+				$("#"+uno).addClass("opt");
+				$("#"+dos).addClass("opt");
+				//$("#"+img).animate({top: e.uno, top: e.dos})
+			}
+		}
+
+	}
+
+	function moveRey($event, x, y, xIni, yIni){		
+		
+		console.log("x: " + x + " y: " + y);
+		console.log("La pieza es Rey y esta en: x= " + xIni + " y= " + yIni);
+	}
+	function moveDama($event, x, y, xIni, yIni){		
+		
+		console.log("x: " + x + " y: " + y);
+		console.log("La pieza es Dama y esta en: x= " + xIni + " y= " + yIni);
+	}
+	function moveAlfil($event, x, y, xIni, yIni){		
+		
+		console.log("x: " + x + " y: " + y);
+		console.log("La pieza es Alfil y esta en: x= " + xIni + " y= " + yIni);
+	}
+	function moveCaballo($event, x, y, xIni, yIni){		
+		
+		console.log("x: " + x + " y: " + y);
+		console.log("La pieza es Caballo y esta en: x= " + xIni + " y= " + yIni);
+	}
+	function moveTorre($event, x, y, xIni, yIni){		
+		
+		console.log("x: " + x + " y: " + y);
+		console.log("La pieza es Torre y esta en: x= " + xIni + " y= " + yIni);
 	}
