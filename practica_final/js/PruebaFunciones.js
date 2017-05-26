@@ -9,8 +9,15 @@ $(document).ready(function(){
 			
 			//$("li img").bind("click", function($e){
 				//console.log($e);
-				piezaMarcada($event);
-				//pieza($event);
+				var liPieza = $event.currentTarget.parentNode;
+
+				marcarPieza($event);
+				var string = $event.currentTarget.parentNode.parentNode.className , substring = "dejarPieza";
+
+				if(string.indexOf(substring) !== -1){
+					pieza($event, liPieza);
+				}
+				
 		//	});
 		})
 	});
@@ -96,21 +103,21 @@ function piezas(){
  
 }
 // Esta funcion marca o desmarca la pieza que has seleccionado
-function piezaMarcada($event){
+function marcarPieza($event){
 	
-	var liPieza = $event.currentTarget.parentNode;
-	var divPieza = liPieza.parentNode;
+	var divPieza = $event.currentTarget.parentNode.parentNode;
 
 	// Si no esta pulsado se cambiara de color, si ya lo estaba volvera al color anterior
 	if ($(divPieza).hasClass("dejarPieza") == true) {
 		$(divPieza).removeClass("dejarPieza");
 	}else{
 		$("#casillas div").removeClass("dejarPieza");
-		$("#casillas div").removeClass("opt");
 		$(divPieza).addClass("dejarPieza");
 	}
+	$("#casillas div").removeClass("opt");
+	
 
-	pieza($event, liPieza);
+	
 }
 
 function pieza($event, liPieza){
@@ -132,9 +139,10 @@ function pieza($event, liPieza){
 	var divPosibles = $(event.currentTarget.parentNode.parentNode).siblings();
 	
 	// Creo dos arrays para la posicion x-y
+	
 	var x = [];
 	var y = [];
-
+/*
 	// Recupero el id de x-y 
 	for (var i = 0; i < divPosibles.length; i++) {
 		var list = [];
@@ -142,7 +150,7 @@ function pieza($event, liPieza){
 		x.push($(list[0]).attr("id").substr(0,1));
 		y.push($(list[0]).attr("id").substr(1,1));
 	}
-	console.log(img);
+*/	console.log(img);
 	console.log(pieza);
 
 	//console.log(" x: " + x + " y: " + y);
@@ -152,8 +160,7 @@ function pieza($event, liPieza){
 			break;
 		case "d":
 			moveDama($event, x, y, xIni, yIni);
-			break;
-			
+			break;		
 		case "a":
 			moveAlfil($event, x, y, xIni, yIni);
 			break;			
@@ -256,21 +263,30 @@ function pieza(ui){
 		var pIniXY = $(event.currentTarget.parentNode.parentNode).attr("id");
 		console.log(pIniXY);
 
+		var eventPieza = $event;
+		var piezaSelec = $($event.currentTarget);
 		if (yIni == 2) {
 			
-			var uno = xIni + 3;
-			var dos = xIni + 4;
+			
+			var p2 =   xIni +"" +(parseInt(yIni) + 2) ;
+
+			console.log(p1)
+			console.log(p2)
 
 			// Si el peon esta en segunda fila
-			if ($("#"+uno).hasClass("opt") == true || $("#"+dos).hasClass("opt") == true) {
-				$("#"+uno).removeClass("opt");
-				$("#"+dos).removeClass("opt");
-			}else{
-				$("#"+uno).addClass("opt");
-				$("#"+dos).addClass("opt");
+			$("#"+p2).addClass("opt");
 				//$("#"+img).animate({top: e.uno, top: e.dos})
-			}
+		
 		}
+		var p1 = xIni + "" +  (parseInt(yIni) + 1) ;
+		$("#"+p1).addClass("opt");
+			$("#"+p1).click(function($event){
+				console.log(piezaSelec[0].parentNode);
+				piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
+				$($event.currentTarget).append(piezaSelec[0]);
+				marcarPieza(eventPieza);
+				$("#"+p1).unbind( "click" );
+			})
 
 	}
 
