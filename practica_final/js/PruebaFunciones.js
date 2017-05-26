@@ -265,28 +265,28 @@ function pieza(ui){
 
 		var eventPieza = $event;
 		var piezaSelec = $($event.currentTarget);
-		if (yIni == 2) {
-			
-			
-			var p2 =   xIni +"" +(parseInt(yIni) + 2) ;
-
-			console.log(p1)
-			console.log(p2)
-
 			// Si el peon esta en segunda fila
-			$("#"+p2).addClass("opt");
-				//$("#"+img).animate({top: e.uno, top: e.dos})
-		
+		if (yIni == 2) {						
+			var p2 =   xIni + "" +(parseInt(yIni) + 2);
+			$("#"+p2).addClass("opt");		
 		}
-		var p1 = xIni + "" +  (parseInt(yIni) + 1) ;
-		$("#"+p1).addClass("opt");
-			$("#"+p1).click(function($event){
-				console.log(piezaSelec[0].parentNode);
+			var p1 = xIni + "" +  (parseInt(yIni) + 1);
+			$("#"+p1).addClass("opt");
+			$("#"+p1).click(function($event){			
 				piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
 				$($event.currentTarget).append(piezaSelec[0]);
 				marcarPieza(eventPieza);
-				$("#"+p1).unbind( "click" );
+				$("#"+p1).unbind("click");
+				$("#"+p2).unbind("click");
 			})
+			$("#"+p2).click(function($event){			
+				piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
+				$($event.currentTarget).append(piezaSelec[0]);
+				marcarPieza(eventPieza);
+				$("#"+p1).unbind("click");
+				$("#"+p2).unbind("click");
+			})
+
 
 	}
 
@@ -309,6 +309,66 @@ function pieza(ui){
 		
 		console.log("x: " + x + " y: " + y);
 		console.log("La pieza es Caballo y esta en: x= " + xIni + " y= " + yIni);
+
+		// Recuperamos la imagen
+		var img = $event.currentTarget.currentSrc;
+
+		// Creamos un evento nuevo
+		var eventPieza = $event;
+		var piezaSelec = $($event.currentTarget);
+
+		var opt = []; 
+
+		parseX = parseInt(xIni);
+		parseY = parseInt(yIni);
+
+		// Arriba-Abajo
+		var p1 = (parseX - 1)+ "" +(parseY + 2);
+		var p2 = (parseX + 1)+ "" +(parseY + 2);
+		var p3 = (parseX - 1)+ "" +(parseY - 2);
+		var p4 = (parseX + 1)+ "" +(parseY - 2);
+
+		// Derecha-Izquierda
+		var p5 = (parseX + 2)+ "" +(parseY + 1);
+		var p6 = (parseX + 2)+ "" +(parseY - 1);
+		var p7 = (parseX - 2)+ "" +(parseY + 1); 
+		var p8 = (parseX - 2)+ "" +(parseY - 1);
+		
+		opt.push(p1);
+		opt.push(p2);
+		opt.push(p3);
+		opt.push(p4);
+		opt.push(p5);
+		opt.push(p6);
+		opt.push(p7);
+		opt.push(p8);
+
+		for (var i = 0; i < opt.length; i++) {	
+			
+			var descarte0 = opt[i] , substring = "0";
+			if(descarte0.indexOf(substring) == -1){
+				var descarteNegativos = opt[i] , substring = "-";
+				if(descarteNegativos.indexOf(substring) == -1){
+					console.log(opt[i]);
+					$("#"+opt[i]).addClass("opt");
+					$("#"+opt[i]).click(function($event){			
+						piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
+// El problema es que falta el li para que funcione correctamente						
+						$($event.currentTarget).append(piezaSelec[0]);
+						marcarPieza(eventPieza);
+						for (var i = 0; i < opt.length; i++) {
+// Si pulsas el caballo y luego un peon, y quieres hacer un movimiento de caballo te deja hacerlo
+							$("#"+opt[i]).unbind("click");
+						}
+					})
+				}
+			}
+			
+			//console.log( i + ": " + opt[i]);
+			if (opt[i] != 0) {}
+		}
+			//console.log(opt.length);
+
 	}
 	function moveTorre($event, x, y, xIni, yIni){		
 		
