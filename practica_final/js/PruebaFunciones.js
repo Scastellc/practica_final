@@ -122,9 +122,6 @@ function marcarPieza($event){
 		$(divPieza).addClass("dejarPieza");
 	}
 	$("#casillas div").removeClass("opt");
-	
-
-	
 }
 
 function pieza($event, liPieza){
@@ -197,14 +194,21 @@ function pieza($event, liPieza){
 */		
 	
 	function movePeon($event, x, y, xIni, yIni){		
-		
-		console.log("x: " + x + " y: " + y);
-		console.log("La pieza es Peon y esta en: x= " + xIni + " y= " + yIni);
-		
+	
 		var img = $event.currentTarget.currentSrc;
+		var pieza = img.substr(77,1);
 
+		switch(pieza){				
+			case "B":
+				movePeonB($event, x, y, xIni, yIni);		
+				break;			
+			default:
+				movePeonN($event, x, y, xIni, yIni);
+		}
+	}	
+
+	function movePeonB($event, x, y, xIni, yIni){
 		var pIniXY = $(event.currentTarget.parentNode.parentNode).attr("id");
-		console.log(pIniXY);
 
 		var eventPieza = $event;
 		var piezaSelec = $($event.currentTarget);
@@ -213,24 +217,48 @@ function pieza($event, liPieza){
 			var p2 =   xIni + "" +(parseInt(yIni) + 2);
 			$("#"+p2).addClass("opt");		
 		}
-			var p1 = xIni + "" +  (parseInt(yIni) + 1);
-			$("#"+p1).addClass("opt");
-			$("#"+p1).click(function($event){			
-				piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
-				$($event.currentTarget).append(piezaSelec[0]);
-				marcarPieza(eventPieza);
-				$("#"+p1).unbind("click");
-				$("#"+p2).unbind("click");
-			})
-			$("#"+p2).click(function($event){			
-				piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
-				$($event.currentTarget).append(piezaSelec[0]);
-				marcarPieza(eventPieza);
-				$("#"+p1).unbind("click");
-				$("#"+p2).unbind("click");
-			})
+		var p1 = xIni + "" +  (parseInt(yIni) + 1);
+		$("#"+p1).addClass("opt");
+		$("#"+p1).click(function($event){			
+			piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
+			$($event.currentTarget).append(piezaSelec[0]);
+			marcarPieza(eventPieza);
+			$("#"+p1).unbind("click");
+			$("#"+p2).unbind("click");
+		})
+		$("#"+p2).click(function($event){			
+			piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
+			$($event.currentTarget).append(piezaSelec[0]);
+			marcarPieza(eventPieza);
+			$("#"+p1).unbind("click");
+			$("#"+p2).unbind("click");
+		})
+	}
 
-
+	function movePeonN($event, x, y, xIni, yIni){
+		var eventPieza = $event;
+		var piezaSelec = $($event.currentTarget);
+			// Si el peon esta en segunda fila
+		if (yIni == 7) {						
+			var p2 =   xIni + "" +(parseInt(yIni) - 2);
+			$("#"+p2).addClass("opt");		
+		}
+		var p1 = xIni + "" +  (parseInt(yIni) - 1);
+		$("#"+p1).addClass("opt");
+		$("#"+p1).click(function($event){			
+			piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
+			$($event.currentTarget).append(piezaSelec[0]);
+			marcarPieza(eventPieza);
+			$("#"+p1).unbind("click");
+			$("#"+p2).unbind("click");
+		})
+		$("#"+p2).click(function($event){			
+			piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
+			$($event.currentTarget).append(piezaSelec[0]);
+			marcarPieza(eventPieza);
+			$("#"+p1).unbind("click");
+			$("#"+p2).unbind("click");
+		})
 	}
 
 	function moveRey($event, x, y, xIni, yIni){		
@@ -273,6 +301,11 @@ function pieza($event, liPieza){
 
 		for (var i = 0; i < optRey.length; i++) {
 			$("#"+optRey[i]).addClass("opt");
+
+			var hayPiezas = $("#"+optRey[i].firstChild);
+			console.log(hayPiezas);
+
+			//if ($("#"+optRey[i])) {}
 			$("#"+optRey[i]).click(function($event){			
 				piezaSelec[0].parentNode.removeChild(piezaSelec[0]);
 // El problema es que falta el li para que funcione correctamente						
@@ -303,7 +336,7 @@ function pieza($event, liPieza){
 		parseY = parseInt(yIni);
 
 		for (var x = 1; x < 8; x++) {
-			
+			// Como el Alfil, en diagonal 
 			// Arriba-Derecha
 			var p1 = (parseX + x)+ "" +(parseY + x);
 			var desc0Opt1 = p1 , substring = "0";
@@ -326,7 +359,9 @@ function pieza($event, liPieza){
 				if (desc9Op2.indexOf(substring) == -1) {
 					var descarteNegativos = p2 , substring = "-";
 					if(descarteNegativos.indexOf(substring) == -1){
-						optDama.push(p2);
+						if (p2.length <= 2) {					
+							optDama.push(p2);
+						}	
 					}
 				}
 			}
@@ -340,7 +375,9 @@ function pieza($event, liPieza){
 				if (desc9Op3.indexOf(substring) == -1) {
 					var descarteNegativos = p3 , substring = "-";
 					if(descarteNegativos.indexOf(substring) == -1){
-						optDama.push(p3);
+						if (p3.length <= 2) {					
+							optDama.push(p3);					
+						}
 					}
 				}
 			}
@@ -354,62 +391,71 @@ function pieza($event, liPieza){
 				if (desc9Op4.indexOf(substring) == -1) {
 					var descarteNegativos = p4 , substring = "-";
 					if(descarteNegativos.indexOf(substring) == -1){
-						optDama.push(p4);
+						if (p4.length <= 2) {					
+							optDama.push(p4);							
+						}
 					}
 				}
 			}
 			
+			// Torre, filas y columnas
 			// Derecha
-			var p1 = (parseX + x)+ "" +(parseY);
-			var desc0Opt1 = p1 , substring = "0";
+			var p5 = (parseX + x)+ "" +(parseY);
+			var desc0Opt1 = p5 , substring = "0";
 
 			if(desc0Opt1.indexOf(substring) == -1){
-				var desc9Op1 = p1 , substring = "9";
-				if (desc9Op1.indexOf(substring) == -1) {
-					if (p1.length <= 2) {					
-						optDama.push(p1);
+				var desc9Op5 = p5 , substring = "9";
+				if (desc9Op5.indexOf(substring) == -1) {
+					if (p5.length <= 2) {					
+						optDama.push(p5);
 					}
 				}
 			}
 			
 			// Izquierda
-			var p2 = (parseX - x)+ "" +(parseY);
-			var desc0Op2 = p2 , substring = "0";
+			var p6 = (parseX - x)+ "" +(parseY);
+			var desc0Op6 = p6 , substring = "0";
 
-			if(desc0Op2.indexOf(substring) == -1){
-				var desc9Op2 = p2 , substring = "9";
-				if (desc9Op2.indexOf(substring) == -1) {
-					var descarteNegativos = p2 , substring = "-";
+			if(desc0Op6.indexOf(substring) == -1){
+				var desc9Op6 = p6 , substring = "9";
+				if (desc9Op6.indexOf(substring) == -1) {
+					var descarteNegativos = p6 , substring = "-";
 					if(descarteNegativos.indexOf(substring) == -1){
-						optDama.push(p2);
+						if (p6.length <= 2) {											
+							optDama.push(p6);
+						}
 					}
 				}
 			}
 
 			// Abajo
-			var p3 = (parseX)+ "" +(parseY - x);
-			var desc0Op3 = p3 , substring = "0";
+			var p7 = (parseX)+ "" +(parseY - x);
+			var desc0Op7 = p7 , substring = "0";
 
-			if(desc0Op3.indexOf(substring) == -1){
-				var desc9Op3 = p3 , substring = "9";
-				if (desc9Op3.indexOf(substring) == -1) {
-					var descarteNegativos = p3 , substring = "-";
+			if(desc0Op7.indexOf(substring) == -1){
+				var desc9Op7 = p7 , substring = "9";
+				if (desc9Op7.indexOf(substring) == -1) {
+					var descarteNegativos = p7 , substring = "-";
 					if(descarteNegativos.indexOf(substring) == -1){
-						optDama.push(p3);
+						if (p7.length <= 2) {					
+							optDama.push(p7);						
+						}
 					}
 				}
 			}
 
 			// Abajo-Izquierda
-			var p4 = (parseX)+ "" +(parseY + x);
-			var desc0Op4 = p4 , substring = "0";
+			var p8 = (parseX)+ "" +(parseY + x);
+			var desc0Op8 = p8 , substring = "0";
 
-			if(desc0Op4.indexOf(substring) == -1){
-				var desc9Op4 = p4 , substring = "9";
-				if (desc9Op4.indexOf(substring) == -1) {
-					var descarteNegativos = p4 , substring = "-";
+			if(desc0Op8.indexOf(substring) == -1){
+				var desc9Op8 = p8 , substring = "9";
+				if (desc9Op8.indexOf(substring) == -1) {
+					var descarteNegativos = p8 , substring = "-";
 					if(descarteNegativos.indexOf(substring) == -1){
-						optDama.push(p4);
+						if (p8.length <= 2) {					
+							optDama.push(p8);
+						}
 					}
 				}
 			}
@@ -471,7 +517,9 @@ function pieza($event, liPieza){
 				if (desc9Op2.indexOf(substring) == -1) {
 					var descarteNegativos = p2 , substring = "-";
 					if(descarteNegativos.indexOf(substring) == -1){
-						optAlfil.push(p2);
+						if (p2.length <= 2) {					
+							optAlfil.push(p2);
+						}
 					}
 				}
 			}
@@ -485,7 +533,9 @@ function pieza($event, liPieza){
 				if (desc9Op3.indexOf(substring) == -1) {
 					var descarteNegativos = p3 , substring = "-";
 					if(descarteNegativos.indexOf(substring) == -1){
-						optAlfil.push(p3);
+						if (p3.length <= 2) {					
+							optAlfil.push(p3);
+						}
 					}
 				}
 			}
@@ -499,7 +549,9 @@ function pieza($event, liPieza){
 				if (desc9Op4.indexOf(substring) == -1) {
 					var descarteNegativos = p4 , substring = "-";
 					if(descarteNegativos.indexOf(substring) == -1){
-						optAlfil.push(p4);
+						if (p4.length <= 2) {					
+							optAlfil.push(p4);
+						}
 					}
 				}
 			}
@@ -582,6 +634,7 @@ function pieza($event, liPieza){
 			}
 		}
 	}
+
 	function moveTorre($event, x, y, xIni, yIni){
 		
 		//console.log("x: " + x + " y: " + y);
