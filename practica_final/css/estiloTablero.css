@@ -44,10 +44,9 @@ ul{
 }
 
 .dejarPieza{ 
-	background-color:#A52A2A; 
-	border: 2px green solid;
+	background-color:#A52A2A;
 }
-.opt{
-	border: 2px green solid;
-	opacity:.5;
+.opt{	
+	border: 2px blue solid;
+	opacity:.5;	    
 }
