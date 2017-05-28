@@ -50,3 +50,32 @@ ul{
 	border: 2px blue solid;
 	opacity:.5;	    
 }
+
+table {
+    width:100%;
+}
+table, th, td {
+    border: 1px solid #A52A2A;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: center;
+}
+table td:nth-child(even) {
+    background-color: black;
+    color: white;
+}
+table td:nth-child(odd) {
+   background-color:#fff;
+}
+table th:nth-child(even){
+	text-align: center;
+    background-color: black;
+    color: white;
+}
+table th:nth-child(odd) {
+	text-align: center;
+    color: black;
+    background-color: #fff;
+}

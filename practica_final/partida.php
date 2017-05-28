@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Ajedrez</title>
+	<title>AjedrezBalear</title>
 
 	<!-- 					jQuery library 							-->
 	<link href="css/estiloTablero.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -11,7 +11,6 @@
 	<!-- 					Jquery						 			-->
 	<script src="js/jquery-1.7.2.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
-	<script src="js/jquery.ui.touch-punch.js"></script>
 	<script type="text/javascript" src="js/funciones.js"></script>
 	<!-- 				Latest compiled and minified CSS 			-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -20,7 +19,9 @@
 	<!--	 					Estilos								-->
 	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 	<link href="css/styloBasic.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-
+	
+	<!--	 					Favicon							-->
+	<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAEQARABEAEQARABEAEREAEQARABEAEQARABEAEQAAEQARABEAEQARABEAEQAREQARABEAEQARABEAEQARAAARABEAEQARABEAEQARABERABEAEQARABEAEQARABEAABEAEQARABEAEQARABEAEREAEQARABEAEQARABEAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon" />
 
 	<?php 
 		include_once "php/funciones.php";
@@ -100,35 +101,58 @@
 			header("Location: login.php");
 		}
 	?>
+	<div class="modal fade" id="mostrarmodal" role="dialog">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	            <h3>Buscando rival</h3>
+	     </div>
+	         <div class="modal-body">
+	            <h4>Estamos buscando un rival...</h4>
+	     </div>
+	        <div class="modal-footer">
+	        <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
+	     </div>
+	      </div>
+	   </div>
+	</div>
 
 	<div id="juego" class="container"> 
 		<div class="row">
-	   		<div class="col-lg-12">
-				<div class="col-md-10 col-md-offset-2">
+	   		<div class="col-lg-8">
+				<div class="col-md-12">
 					<div class="tablero">
 						<h1>Tablero</h1>
-						<ul id="casillas">
-
-						<?php 
-							crearTablero();
-						?>
-
-						<script type="text/javascript">
-							//tablero();
-						</script>
-
-						</ul><hr/>
+						<h4>Jugador 1: </h4>
+						<ul id="casillas"></ul>
+						<h4>Jugador 2: </h4>
 					</div>
 				</div>		
+			</div>
+			<div class="col-lg-4">
+				<div class="col-md-10 col-md-offset-2">
+					<div>
+						<h1>Anotacion</h1>
+						<table id="planilla">				  	
+						  	<thead>						  		
+						    	<th>Jugador 1:</th>
+						    	<th>Jugador 2:</th>
+						  	</thead>
+						  	<tbody>
+						  		<tr>
+						  			<td>Blancas</td>
+						  			<td>Negras</td>
+						  		</tr>
+						  	</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>		
 	</div>
 	
-
-	
-
-
-		<!-- 			Con este div separamos el footer				-->
+			<!-- 			Con este div separamos el footer				-->
 	<div class="clearfix"></div>
 
  	<!--		Footer		-->
@@ -163,10 +187,5 @@
 
 	<!-- 				Latest compiled JavaScript 					-->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-     <script>
-		piezas();
-		//jugada(casillas);
-		mover();
- 	
- 	</script>	
+
 </html>

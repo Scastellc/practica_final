@@ -65,7 +65,7 @@
 			                <li><a href="modificarCuenta.php"><i class="icon-cog"></i> Modificar perfil</a></li>
 			                <li><a href="modificarCuenta.php"><i class="icon-envelope"></i> <?php echo "<img src='usuarios/cliente.png' alt='cliente' style='width: 25px;' >"; ?></a></li>
 			                <li class="divider"></li>
-			                <li><a href="#"><i class="icon-cog"></i> <?php  echo " Elo: " . $_SESSION['cliente'] -> getelo(); ?></a></li>
+			                <li><a href=""><i class="icon-cog"></i> <?php  echo " Elo: " . $_SESSION['cliente'] -> getelo(); ?></a></li>
 			                <li class="divider"></li>
 			                <li><a href="php/quitar.php"><i class="icon-off"></i> Logout</a></li>
 			            </ul>
@@ -84,7 +84,7 @@
 		                    <li><a href="modificarCuenta.php"><i class="icon-cog"></i> Modificar perfil</a></li>
 		                    <li><a href="modificarCuenta.php"><i class="icon-envelope"></i> <?php echo "<img src='usuarios/" . $_SESSION['cliente'] -> getavatar() ."' alt='cliente' style='width: 25px;' >"; ?></a></li>
 		               		<li class="divider"></li>
-			                <li><a href="#"><i class="icon-cog"></i> <?php  echo " Elo: " . $_SESSION['cliente'] -> getelo(); ?></a></li>
+			                <li><a href=""><i class="icon-cog"></i> <?php  echo " Elo: " . $_SESSION['cliente'] -> getelo(); ?></a></li>
 			                <li class="divider"></li>
 		                    <li><a href="php/quitar.php"><i class="icon-off"></i> Logout</a></li>
 		                </ul>
