@@ -7,9 +7,10 @@ var _pieza = "";
 var letras = ["","a", "b", "c", "d", "e", "f", "g", "h"];
 
 $(document).ready(function(){
-
- 	//console.log($("#mostrarmodal"));
- 	//$("#mostrarmodal").modal("show");
+/*
+ 	console.log($("#mostrarmodal"));
+ 	$("#mostrarmodal").modal("show");
+*/
 	tablero();
 	piezas();
 
@@ -25,10 +26,8 @@ $(document).ready(function(){
 		}
 
 		if(marcarPieza(casilla)){
-
 			// Elimino todas las clase opt que quedaban
 			$("#casillas div").removeClass("opt");
-
 			pieza(casilla);
 		};
 
@@ -40,6 +39,19 @@ function moverPieza(casilla){
 	_pieza = casillaInicio.attr("data-pieza");
 	_colorPieza = casillaInicio.attr("data-color");
 	
+	
+	var ids = casilla.attr("id");
+	var ultima = ids.substr(1,1);
+
+	if (_pieza == "peon") {
+		for (var i = 0; i < 7; i++) {
+			if (casilla.attr("id") == i+ultima) {
+
+			}
+		}
+			console.log(ultima);
+	}
+
 	// Anotacion
 	var pieza = _pieza.substr(0,1).toUpperCase();
 	var pieza2 = _pieza.substr(0,1).toUpperCase();
@@ -64,7 +76,7 @@ function moverPieza(casilla){
 		casilla.attr("data-pieza",casillaInicio.attr("data-pieza"));
 		casillaInicio.attr("data-color","");
 		casillaInicio.attr("data-pieza","");				
-						
+
 		var tagImg = casillaInicio[0].firstChild.firstChild;
 		casillaInicio[0].firstChild.removeChild(tagImg);
 		casilla[0].firstChild.append(tagImg);
@@ -93,9 +105,7 @@ function colorAnotar(pieza, numInicio, pieza2){
 
 
 // Funcion para crear el tablero
-function tablero(){
-
-	
+function tablero(){	
 
 	// Hacemos dos for para crear el tablero de 8 x 8
 	for(var y = 8; y >= 1; y--){
@@ -135,7 +145,6 @@ function piezas(){
 		$("#"+i+"2").attr("data-pieza",blancas[0]);
 		$("#"+i+"2").attr("data-color","blancas");
 	}
-
 	for (var i = 9; i > 0; i--) {
 		$("#"+i+"8").html('<li title="'+letras[i]+8+'" id="'+letras[i]+8+'"><img src="piezas/N'+$(negras[i]).selector+'.png"/></li>');
 		$("#"+i+"7").html('<li title="'+letras[i]+7+'" id="'+letras[i]+7+'"><img src="piezas/N'+$(negras[0]).selector+'.png"/></li>');
@@ -145,6 +154,7 @@ function piezas(){
 		$("#"+i+"7").attr("data-pieza",negras[0]);
 		$("#"+i+"7").attr("data-color","negras");
 	}
+
 }
 
 // Esta funcion marca o desmarca la pieza que has seleccionado
@@ -195,41 +205,85 @@ function pieza(casilla){
 	// Esta funcion es para saber si es peon blanco o negro
 	function colorPeon(xIni, yIni){		
 
+		parseX = parseInt(xIni);
+		parseY = parseInt(yIni);
+
 		switch(_colorPieza){				
 			case "blancas":
-				movePeonB(xIni, yIni);		
+				movePeonB(parseX, parseY);		
 				break;			
 			default:
-				movePeonN(xIni, yIni);
+				movePeonN(parseX, parseY);
 		}
 	}	
 
 	// Indico como puede mover el peon blanco
-	function movePeonB(xIni, yIni){
+	function movePeonB(parseX, parseY){
+		
+		pM1 = (parseX + 1) + "" + (parseY + 1);
+		pM2 = (parseX - 1) + "" + (parseY + 1);
+
 		// Si el peon esta en segunda fila
-		if (yIni == 2) {						
-			var p1 = xIni + "" +  (parseInt(yIni) + 1);
-			$("#"+p1).addClass("opt");
-			var p2 =   xIni + "" +(parseInt(yIni) + 2);
-			$("#"+p2).addClass("opt");		
+		if (parseY == 2) {		
+
+			var p1 = parseX + "" + (parseY + 1);
+			var p2 = parseX + "" + (parseY + 2);
+
+			if ($("#"+p1).attr("data-pieza")=="") {
+				$("#"+p1).addClass("opt");
+				$("#"+p2).addClass("opt");
+			}	
+
+			peonMata(pM1, pM2);
+
 		}else{
-			var p1 = xIni + "" +  (parseInt(yIni) + 1);
-			$("#"+p1).addClass("opt");
+			var p1 = parseX + "" + (parseY + 1);
+
+			if ($("#"+p1).attr("data-pieza")=="") {
+				$("#"+p1).addClass("opt");				
+			}
+			peonMata(pM1, pM2);
 		}
 	}
 
 	// Indico como puede mover el peon negro
-	function movePeonN(xIni, yIni){
+	function movePeonN(parseX, parseY){
+		
+		pM1 = (parseX + 1) + "" + (parseY - 1);
+		pM2 = (parseX - 1) + "" + (parseY - 1);
+
 		// Si el peon esta en segunda fila
-		if (yIni == 7) {						
-			var p2 =   xIni + "" +(parseInt(yIni) - 2);
-			$("#"+p2).addClass("opt");		
-			var p1 = xIni + "" +  (parseInt(yIni) - 1);
-			$("#"+p1).addClass("opt");
+		if (parseY == 7) {						
+			var p1 = parseX + "" + (parseY - 1);
+			var p2 = parseX + "" + (parseY - 2);
+			
+			if ($("#"+p1).attr("data-pieza")=="") {
+				$("#"+p1).addClass("opt");
+				$("#"+p2).addClass("opt");
+			}	
+
+			peonMata(pM1, pM2);
+
 		}else{
-			var p1 = xIni + "" +  (parseInt(yIni) - 1);
-			$("#"+p1).addClass("opt");
+			var p1 = parseX + "" + (parseY - 1);
+			if ($("#"+p1).attr("data-pieza")=="") {
+				$("#"+p1).addClass("opt");				
+			}
+			peonMata(pM1, pM2);
 		}
+	}
+
+	function peonMata (pM1, pM2){
+		if ($("#"+pM1).attr("data-color") != "" && $("#"+pM1).attr("data-color") != _quienToca) {				
+			$("#"+pM1).addClass("opt");				
+		}
+		if ($("#"+pM2).attr("data-color") != "" && $("#"+pM2).attr("data-color") != _quienToca) {				
+			$("#"+pM2).addClass("opt");				
+		}
+	}
+
+	function peonUltima(){
+
 	}
 
 	// Funcion para poder mover el rey
@@ -256,98 +310,131 @@ function pieza(casilla){
 		var p8 = (parseX - 1) + "" + (parseY - 1);
 
 		// Agregamos al arrya
-		optRey.push(p1);
-		optRey.push(p2);
-		optRey.push(p3);
-		optRey.push(p4);
-		optRey.push(p5);
-		optRey.push(p6);
-		optRey.push(p7);
-		optRey.push(p8);
+		optRey.push(p1, p2, p3, p4, p5, p6, p7, p8);
 
 		// Recorremos el array de donde puede mover
 		for (var i = 0; i < optRey.length; i++) {
 			// Le añadimos la clase para que cambie de color
-			$("#"+optRey[i]).addClass("opt");
+			if ($("#"+optRey[i]).attr("data-color")!=_quienToca) {
+				$("#"+optRey[i]).addClass("opt");						
+			}	
 		}
-
 	}
-	function moveDama(xIni, yIni){		
 
-		var optDama = []; 
+	function moveDama(xIni, yIni){		
+		var optDama = { "arr_0" : [], "arr_1" : [], "arr_2" : [], "arr_3" : [], "arr_4" : [], "arr_5" : [], "arr_6" : [], "arr_7" : []};
 
 		parseX = parseInt(xIni);
 		parseY = parseInt(yIni);
 
 		for (var x = 1; x < 8; x++) {
-			// Como el Alfil, en diagonal 
-			// Arriba-Derecha
-			var p1 = (parseX + x)+ "" +(parseY + x);
-			comprobar(optDama, p1);
 			
-			// Arriba-Izquierda
-			var p2 = (parseX - x)+ "" +(parseY + x);
-			comprobar(optDama, p2);
-
-			// Abajo-Derecha
-			var p3 = (parseX + x)+ "" +(parseY - x);
-			comprobar(optDama, p3);
-
-			// Abajo-Izquierda
-			var p4 = (parseX - x)+ "" +(parseY - x);
-			comprobar(optDama, p4);
-			
-			// Torre, filas y columnas
 			// Derecha
-			var p5 = (parseX + x)+ "" +(parseY);
-			comprobar(optDama, p5);
-			
+			var p1 = {
+				x: (parseX + x),
+				y: (parseY)
+			}
+			comprobar(optDama.arr_0, p1);
+
 			// Izquierda
-			var p6 = (parseX - x)+ "" +(parseY);
-			comprobar(optDama, p6);
+			var p2 = {
+				x: (parseX - x),
+				y: (parseY)
+			}
+			comprobar(optDama.arr_1, p2);
+
+			// Arriba
+			var p3 = {
+				x: (parseX),
+				y: (parseY + x)
+			}
+			comprobar(optDama.arr_2, p3);
 
 			// Abajo
-			var p7 = (parseX)+ "" +(parseY - x);
-			comprobar(optDama, p7);
+			var p4 = {
+				x: (parseX),
+				y: (parseY - x)
+			}
+			comprobar(optDama.arr_3, p4);
+			
+			// Arriba-Derecha
+			var p5 = {
+				x: (parseX + x),
+				y: (parseY + x)
+			}
+			comprobar(optDama.arr_4, p5);
+
+			// Arriba-Izquierda
+			var p6 = {
+				x: (parseX - x),
+				y: (parseY + x)
+			}
+			comprobar(optDama.arr_5, p6);
+
+			// Abajo-Derecha
+			var p7 = {
+				x: (parseX + x),
+				y: (parseY - x)
+			}
+			comprobar(optDama.arr_6, p7);
 
 			// Abajo-Izquierda
-			var p8 = (parseX)+ "" +(parseY + x);
-			comprobar(optDama, p8);
+			var p8 = {
+				x: (parseX - x),
+				y: (parseY - x)
+			}
+			comprobar(optDama.arr_7, p8);
 
 		}
+		/*
 		for (var i = 0; i < optDama.length; i++) {
 			$("#"+optDama[i]).addClass("opt");
 		}
+		*/
 	}
 
 	function moveAlfil(xIni, yIni){		
-		var optAlfil = []; 
-
+	
+		var optAlfil = { "arr_0" : [], "arr_1" : [], "arr_2" : [], "arr_3" : [] };
 		parseX = parseInt(xIni);
 		parseY = parseInt(yIni);
 
 		for (var x = 1; x < 8; x++) {
-			
+
 			// Arriba-Derecha
-			var p1 = (parseX + x)+ "" +(parseY + x);
-			comprobar(optAlfil, p1);
+			var p1 = {
+				x: (parseX + x),
+				y: (parseY + x)
+			}
+			comprobar(optAlfil.arr_0, p1);
 
 			// Arriba-Izquierda
-			var p2 = (parseX - x)+ "" +(parseY + x);
-			comprobar(optAlfil, p2);
+			var p2 = {
+				x: (parseX - x),
+				y: (parseY + x)
+			}
+			comprobar(optAlfil.arr_1, p2);
 
 			// Abajo-Derecha
-			var p3 = (parseX + x)+ "" +(parseY - x);
-			comprobar(optAlfil, p3);
+			var p3 = {
+				x: (parseX + x),
+				y: (parseY - x)
+			}
+			comprobar(optAlfil.arr_2, p3);
 
 			// Abajo-Izquierda
-			var p4 = (parseX - x)+ "" +(parseY - x);
-			comprobar(optAlfil, p4);
-		}
+			var p4 = {
+				x: (parseX - x),
+				y: (parseY - x)
+			}
+			comprobar(optAlfil.arr_3, p4);
 
+		}
+/*
 		for (var i = 0; i < optAlfil.length; i++) {
 			$("#"+optAlfil[i]).addClass("opt");
 		}
+*/
 	}
 
 	function moveCaballo(xIni, yIni){		
@@ -359,39 +446,26 @@ function pieza(casilla){
 
 		// Arriba-Abajo
 		var p1 = (parseX - 1)+ "" +(parseY + 2);
-//		comprobar(optCaballo, p1);
 		var p2 = (parseX + 1)+ "" +(parseY + 2);
-//		comprobar(optCaballo, p2);
 		var p3 = (parseX - 1)+ "" +(parseY - 2);
-//		comprobar(optCaballo, p3);
 		var p4 = (parseX + 1)+ "" +(parseY - 2);
-//		comprobar(optCaballo, p4);
 
 		// Derecha-Izquierda
 		var p5 = (parseX + 2)+ "" +(parseY + 1);
-//		comprobar(optCaballo, p5);
 		var p6 = (parseX + 2)+ "" +(parseY - 1);
-//		comprobar(optCaballo, p6);
-		var p7 = (parseX - 2)+ "" +(parseY + 1);
-//		comprobar(optCaballo, p7); 
+		var p7 = (parseX - 2)+ "" +(parseY + 1); 
 		var p8 = (parseX - 2)+ "" +(parseY - 1);
-//		comprobar(optCaballo, p8);
 
-		optCaballo.push(p1);
-		optCaballo.push(p2);
-		optCaballo.push(p3);
-		optCaballo.push(p4);
-		optCaballo.push(p5);
-		optCaballo.push(p6);
-		optCaballo.push(p7);
-		optCaballo.push(p8);
+		optCaballo.push(p1, p2, p3, p4, p5, p6, p7, p8);
 
 		for (var i = 0; i < optCaballo.length; i++) {	
 			var descarte0 = optCaballo[i] , substring = "0";
 			if(descarte0.indexOf(substring) == -1){
 				var descarteNegativos = optCaballo[i] , substring = "-";
-				if(descarteNegativos.indexOf(substring) == -1){
-					$("#"+optCaballo[i]).addClass("opt");
+				if(descarteNegativos.indexOf(substring) == -1){					
+					if ($("#"+optCaballo[i]).attr("data-color")!=_quienToca) {
+						$("#"+optCaballo[i]).addClass("opt");						
+					}
 				}
 			}
 		}
@@ -399,34 +473,96 @@ function pieza(casilla){
 
 	function moveTorre(xIni, yIni){
 
-		var optTorre = []; 
-
 		parseX = parseInt(xIni);
 		parseY = parseInt(yIni);
+		
+		var optTorre = { "arr_0" : [], "arr_1" : [], "arr_2" : [], "arr_3" : [] };
 
 		for (var x = 1; x < 8; x++) {
-			
+		
 			// Derecha
-			var p1 = (parseX + x)+ "" +(parseY);
-			comprobar(optTorre, p1);
-			
+			var p1 = {
+				x: (parseX + x),
+				y: (parseY)
+			}
+			comprobar(optTorre.arr_0, p1);
+
 			// Izquierda
-			var p2 = (parseX - x)+ "" +(parseY);
-			comprobar(optTorre, p2);
+			var p2 = {
+				x: (parseX - x),
+				y: (parseY)
+			}
+			comprobar(optTorre.arr_1, p2);
+
+			// Arriba
+			var p3 = {
+				x: (parseX),
+				y: (parseY + x)
+			}
+			comprobar(optTorre.arr_2, p3);
 
 			// Abajo
-			var p3 = (parseX)+ "" +(parseY - x);
-			comprobar(optTorre, p3);
-
-			// Abajo-Izquierda
-			var p4 = (parseX)+ "" +(parseY + x);
-			comprobar(optTorre, p4);
-
+			var p4 = {
+				x: (parseX),
+				y: (parseY - x)
+			}
+			comprobar(optTorre.arr_3, p4);
 		}
 
-		for (var i = 0; i < optTorre.length; i++) {
-			$("#"+optTorre[i]).addClass("opt");
+		//console.log(optTorre.length);
+
+//		var piezaEnMedio = false;
+
+		//console.log(optTorre);
+
+/*
+		for (var i = 0; i < optTorre.arr_0.length ; i++) {
+			//console.log(optTorre.arr_0[i]);
+			if ($("#"+optTorre.arr_0[i]).attr("data-pieza")!="") {
+
+				//console.log(optTorre.arr_0[i]);
+				piezaEnMedio = true;
+			}
+			if (!piezaEnMedio) {
+				$("#"+optTorre.arr_0[i]).addClass("opt");					
+				piezaEnMedio = false;
+			}
 		}
+*/
+
+		/*
+		for (var i = 0; i < optTorre.length; i++) {			
+
+			//console.log($("#"+optTorre[i]));
+			//console.log($("#"+optTorre[i]).attr("data-pieza"));
+			if(!piezaEnMedio){
+				$("#"+optTorre[i]).addClass("opt");
+			}
+
+			if($("#"+optTorre[i]).attr("data-pieza")!=""){								
+				piezaEnMedio = true;
+				console.log(optTorre[i]);
+
+				if (optTorre[i]){
+
+				}
+
+			}else{
+				$("#"+optTorre[i]).addClass("opt");
+			}
+
+			if($("#"+optTorre[i]).attr("data-pieza")!=null){								
+				piezaEnMedio = true;
+			}
+			if($("#"+optTorre[i]).attr("data-pieza")!=null){								
+				piezaEnMedio = true;
+				while(piezaEnMedio == false){
+					$("#"+optTorre[i]).addClass("opt");
+				}
+			}
+		}
+			*/
+
 	}
 
 	function anotacionB(pieza, numInicio, pieza2){
@@ -465,6 +601,32 @@ function pieza(casilla){
 	}
 
 	function comprobar(array, p){
+		var piezaEnMedio = false;
+
+		if(p.x <= 8 && p.x >= 1){
+
+			if (p.y <= 8 && p.y >= 1) {
+					
+				array.push(p.x+""+p.y);
+
+				for (var i = 0; i < array.length ; i++) {
+					//console.log(array[i]);
+
+					if ($("#"+array[i]).attr("data-pieza")!="") {
+						piezaEnMedio = true;
+					}
+
+					if (!piezaEnMedio) {
+						
+						$("#"+array[i]).addClass("opt");
+						
+						piezaEnMedio = false;
+					}
+				}
+			}
+
+		}
+		/*
 		var desc0Op = p , substring = "0";
 
 		if(desc0Op.indexOf(substring) == -1){
@@ -472,9 +634,11 @@ function pieza(casilla){
 			if (desc9Op.indexOf(substring) == -1) {
 				var descarteNegativos = p , substring = "-";
 				if(descarteNegativos.indexOf(substring) == -1){
+					
 					array.push(p);
 					
 				}
 			}
 		}
+		*/
 	}
