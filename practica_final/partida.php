@@ -8,8 +8,12 @@
 	<!-- 					jQuery library 							-->
 	<link href="css/estiloTablero.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
-	<!-- 					Jquery						 			-->
+	<!-- 					Jquery						 			
+	
 	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/funciones.js"></script>
 	<!-- 				Latest compiled and minified CSS 			-->
@@ -134,12 +138,12 @@
 				<div class="col-md-10 col-md-offset-2">
 					<div>
 						<h1>Anotacion</h1>
-						<table id="planilla">				  	
+						<table>				  	
 						  	<thead>						  		
 						    	<th>Jugador 1:</th>
 						    	<th>Jugador 2:</th>
 						  	</thead>
-						  	<tbody>
+						  	<tbody id="planilla">
 						  		<tr>
 						  			<td>Blancas</td>
 						  			<td>Negras</td>
