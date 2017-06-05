@@ -58,6 +58,9 @@
 							<li>
 								<a href="" data-toggle="modal" data-target="#Cfun">¿Como funciona?</a>
 							</li>
+							<li>
+								<a href="" data-toggle="modal" data-target="#mPartidas">Mis Partidas</a>
+							</li>
 						</ul>
 						<div id=divDer class='nav navbar-nav navbar-right'>	
 							
@@ -72,7 +75,7 @@
 	    </div>
 	</div>
 
-				<!-- 				Modal de carta							-->
+				<!-- 			Modal de como funciona					-->
 	<div class="modal fade" id="Cfun" role="dialog">
 	    <div class="modal-dialog">
 			<!-- 					Contenedor del modal 				-->
@@ -83,7 +86,14 @@
 	        	</div>
 	        	<div class="modal-body">
 	        		<div class="text-center">
-			        	<p> "Como funciona y eso..." </p>
+			        	<p> 1- Estar registrado en la pagina.</p>
+			        	<p> 2- Encontrar ha alguien que quiera jugar!</p>
+			        	<p>	3- Una vez logrado los dos pasos anteriores iremos al apartado de jugar, al entrar nos pedira que <strong>introduzcamos los nicks de dos usuarios registrados</strong> </p>
+			        	<p>	4- Jugar la partida uno contra el otro a ver quien sabe mas!</p>
+			        	<p> 5- Dentro de la partida podremos hacer tablas o abandonar, este juego de ajedrez tiene unas normas mas peculiares, aquí si se gana comiendo el rey, y no hay enroques.</p>
+			        	<p> 6- ¡¡Importante a la hora de coronar un peon tener seleccionada antes la pieza que queremos coronar!!</p>
+			        	<p> 7- Una vez terminada la partida podremos guardar la partida dandole al boton de pone: "Guardar Partida" que aparecera al finalizar la partida, para en un futuro volver a ver la planilla, en el apartado de mis partidas</p>
+			        	<p> Por ultimo <strong>toca disfrutar entre amigos a ver quien es mas bueno!!</strong></p>	
 	        		</div>
 	        	</div>
 	        	<div class="modal-footer modal-right">
@@ -92,7 +102,27 @@
 	      	</div>
 	    </div>
 	</div>
-	
+
+					<!-- 			Modal de mis partidas				-->
+	<div class="modal fade" id="mPartidas" role="dialog">
+	    <div class="modal-dialog">
+			<!-- 					Contenedor del modal 				-->
+	    	<div class="modal-content">
+	        	<div class="modal-header">
+	          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+	          		<h3 class="modal-title">Mis partidas</h3>
+	        	</div>
+	        	<div class="modal-body">
+	        		<div class="text-center">
+			        	<p> 1- Mis partidas.</p>			       
+	        		</div>
+	        	</div>
+	        	<div class="modal-footer modal-right">
+		        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+	        	</div>
+	      	</div>
+	    </div>
+	</div>
 	<?php 
 		// Le indico que si la session no esta iniciada que la inicie vacia
 		if (empty($_SESSION['cliente'])) {	
@@ -105,57 +135,177 @@
 			header("Location: login.php");
 		}
 	?>
+	<!--
 	<div class="modal fade" id="mostrarmodal" role="dialog">
 	   <div class="modal-dialog">
-	      <div class="modal-content">
-	         <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	            <h3>Buscando rival</h3>
-	     </div>
-	         <div class="modal-body">
-	            <h4>Estamos buscando un rival...</h4>
-	     </div>
-	        <div class="modal-footer">
-	        <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
-	     </div>
-	      </div>
+	      	<div class="modal-content">
+	        	<div class="modal-header">
+	        		<button type="button" class="close" data-dismiss="modal">&times;</button>
+	            	<h3>¿Jugadores?</h3>
+	    		</div>
+	       		<div class="modal-body">
+		       		<form action="" method="POST">
+		            	<span>Jugador 1:*</span>
+	                	<input type="text" name="login1" class='form-control' pattern="^([a-z]+[0-9]{0,2}){5,12}$" title="Minimo 5 letras, y dos num opcional" required>
+	               		<span>Jugador 2:*</span>
+	                	<input type="text" name="login2" class='form-control' pattern="^([a-z]+[0-9]{0,2}){5,12}$" title="Minimo 5 letras, y dos num opcional" required>
+	                	<br>
+						<span style="color: red;">* Recuerda, si introduces los nombres de los dos jugadores se guardan en la base de datos para poder acceder despues a ver la planilla!</span>
+					</form>	
+				</div>	
+		        <div class="modal-footer">
+		        	<a href="#" data-dismiss="modal" class="btn btn-success" name="enviarJugadores">Enviar</a>
+		        	<a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
+		     	</div>
+	    	</div>
 	   </div>
 	</div>
+-->
 
-	<div id="juego" class="container"> 
-		<div class="row">
-	   		<div class="col-lg-8">
-				<div class="col-md-12">
-					<div class="tablero">
-						<h1>Tablero</h1>
-						<h4>Jugador 1: </h4>
-						<ul id="casillas"></ul>
-						<h4>Jugador 2: </h4>
-					</div>
-				</div>		
-			</div>
-			<div class="col-lg-4">
-				<div class="col-md-10 col-md-offset-2">
-					<div>
-						<h1>Anotacion</h1>
-						<table>				  	
-						  	<thead>						  		
-						    	<th>Jugador 1:</th>
-						    	<th>Jugador 2:</th>
-						  	</thead>
-						  	<tbody id="planilla">
-						  		<tr>
-						  			<td>Blancas</td>
-						  			<td>Negras</td>
-						  		</tr>
-						  	</tbody>
-						</table>
-					</div>
+
+	<?php
+		if (isset($_POST['enviarJugadores'])) {
+		
+			$player1 = ($_POST['login1']);
+			$player2 = ($_POST['login2']);
+
+			// Conexion a la bd
+			$bd = conexion();
+
+			// Consulta
+			$consu = "SELECT login FROM Usuario WHERE login = '" . $player1 . "'";
+			$consu2 = "SELECT login FROM Usuario WHERE login = '" . $player2 . "'";
+
+			// Hacemos la consulta
+			$result = sentencia($bd, $consu);	
+			$result2 = sentencia($bd, $consu2);
+
+			// Contamos el numero de filas que devuelve
+			$total = $result -> num_rows;
+			$total2 = $result2 -> num_rows;
+
+			if ($total > 0 && $total2 > 0 ) {
+				
+				?>
+				<div id="juego" class="container"> 
+					<div class="row">
+						<div class="btn-group col-lg-1" id="piezaCoronar" data-toggle="buttons">
+							<label class="btn btn-default active">
+								<input type="radio" title="Dama" value="dama" id="rDama" autocomplete="off" chacked>
+								<span class="glyphicon glyphicon-queen col-lg-3"></span>
+							</label>
+
+							<label class="btn btn-default">
+								<input type="radio" title="Torre" value="torre" id="rTorre" autocomplete="off">
+								<span class="glyphicon glyphicon-tower col-lg-3"></span>
+							</label>
+
+							<label class="btn btn-default">
+								<input type="radio" title="Caballo" value="caballo" id="rCaballo" autocomplete="off">
+								<span class="glyphicon glyphicon-knight col-lg-3"></span>
+							</label>
+
+							<label class="btn btn-default">
+								<input type="radio" title="Alfil" value="alfil" id="rAlfil" autocomplete="off">
+								<span class="glyphicon glyphicon-bishop col-lg-3"></span>
+							</label>		
+						</div>
+				   		<div class="col-lg-8">
+							<div class="col-md-12">
+								<div class="tablero">
+									<h1>Partida!</h1>
+									<ul id="casillas"></ul>
+								</div>
+							</div>
+							<div>&nbsp;</div>
+							<div>&nbsp;</div>
+							<div id="resultados" style="margin-left: 15%;">
+								<input type='button' class='btn btn-lg btn-danger col-lg-3 col-lg-push-1' value='1-0' onclick="anotarFinal('1-0');"/>	
+								<input type='button' class='btn btn-lg btn-success col-lg-3 col-lg-push-1' value='Tablas' onclick="anotarFinal('0,5-0,5');"/>
+								<input type='button' class='btn btn-lg btn-danger col-lg-3 col-lg-push-1' value='0-1' onclick="anotarFinal('0-1');" />								
+							</div>
+							
+						</div>
+						<div class="col-lg-3">
+							<div class="col-md-10 col-md-offset-2">
+								<form action="" method="POST" id="formAjax">
+									<div>
+										<h1>Anotacion</h1>
+										<table>				  	
+										  	<thead>						  		
+										    	<th><?php echo $player1; ?></th>
+										    	<th><?php echo $player2; ?></th>
+										  	</thead>
+										  	<tbody id="planilla">
+										  		<tr>
+										  			<td>Blancas</td>
+										  			<td>Negras</td>
+										  		</tr>
+										  	</tbody>
+										</table><br>
+										<input type='hidden' id="aBlancas" name="aBlancas"/>
+										<input type='hidden' id="aNegras" name="aNegras"/>
+										<input type='hidden' id="aRes" name="aRes"/>
+										<input type='button' value="Guardar Partida" class='btn btn-lg btn-info hide' id="mandar" name="mandarPartida" onclick="enviarPartida()"/>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>		
 				</div>
+
+		<?php
+				if (isset($_POST['mandarPartida'])) {
+					//mandarPartida($player1, $player2);
+/*
+					$blancas = $_POST['aBlancas'];
+					$negras = $_POST['aNegras'];
+					$res = $_POST['aRes'];
+
+					$sql = 'INSERT INTO Partida(nick_blancas, nick_negras, resultado, move_blancas, move_negras) VALUES ("'.$player1.'","'.$player2.'","'.$res.'","'.$blancas.'","'.$negras.'")';
+
+					$result3 = sentencia($bd, $sql);
+					var_dump($sql);
+*/
+				}
+			}else{
+				apuntarJugadores();
+			}
+		?>
+
+	<?php
+
+		}else{
+			apuntarJugadores();
+			//echo "<script type='text/javascript'>alert('Los logins no existen')</script>";
+		}
+
+		function apuntarJugadores(){
+	?>
+		<div class="container">
+		<div class="row formu"> 		
+			<div class='col-sm-10 col-sm-offset-1'>
+		        <div class='well well-lg'>
+					<h2>¿Jugadores?</h2>
+					<form action="" method="POST">
+		            	<span>Jugador 1 (blancas):</span>
+	                	<input type="text" name="login1" class='form-control' pattern="^([a-z]+[0-9]{0,2}){5,12}$" title="Minimo 5 letras, y dos num opcional" required><br>
+	               		<span>Jugador 2 (negras):</span>
+	                	<input type="text" name="login2" class='form-control' pattern="^([a-z]+[0-9]{0,2}){5,12}$" title="Minimo 5 letras, y dos num opcional" required>
+	                	<br>
+						<div class='text-center'>
+							<span style="color: red;">Recuerda, si introduces el login de los dos jugadores registrados se guardan en la base de datos para poder acceder despues a ver la planilla!</span><br><br>				   
+                        	<input type='submit' class='btn btn-primary' title="Se activara cuando este el formulario completado y aceptado las condicones." name="enviarJugadores" id="enviarJugadores" value='Enviar'/>
+                        	<input type='reset' class='btn btn-danger' value='Cancelar' />		
+						</div>
+					</form>
+		        </div>
 			</div>
-		</div>		
+		</div>
 	</div>
-	
+	<?php 
+		}
+	?>
 			<!-- 			Con este div separamos el footer				-->
 	<div class="clearfix"></div>
 
@@ -186,7 +336,6 @@
     </div>
 
 </body>
-
 	<!--Bootstrap-->
 
 	<!-- 				Latest compiled JavaScript 					-->
