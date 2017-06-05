@@ -1,3 +1,5 @@
+
+
 // Variables globales, para saber a quien toca, el color de la pieza y la pieza
 var _quienToca = "blancas";
 var _colorPieza = "";
@@ -7,10 +9,9 @@ var _pieza = "";
 var letras = ["","a", "b", "c", "d", "e", "f", "g", "h"];
 
 $(document).ready(function(){
-/*
- 	console.log($("#mostrarmodal"));
+
  	$("#mostrarmodal").modal("show");
-*/
+
 	tablero();
 	piezas();
 
@@ -43,14 +44,6 @@ function moverPieza(casilla){
 	var ids = casilla.attr("id");
 	var ultima = ids.substr(1,1);
 
-	if (_pieza == "peon") {
-		for (var i = 0; i < 7; i++) {
-			if (casilla.attr("id") == i+ultima) {
-
-			}
-		}
-			console.log(ultima);
-	}
 
 	// Anotacion
 	var pieza = _pieza.substr(0,1).toUpperCase();
@@ -64,11 +57,39 @@ function moverPieza(casilla){
 		casillaInicio.attr("data-color","");
 		casillaInicio.attr("data-pieza","");
 
-		var tagImgEliminar = casilla[0].firstChild.firstChild;
-		var tagImgAñadir = casillaInicio[0].firstChild.firstChild;		
-		casilla[0].firstChild.removeChild(tagImgEliminar);
-		casilla[0].firstChild.append(tagImgAñadir);
-		colorAnotar(pieza, numInicio, pieza2+"x");
+		if (_pieza == "peon" && (ultima == 8 || ultima == 1)) {
+		
+			console.log(ultima);
+			//<img src="piezas/N'+$(negras[i]).selector+'.png"/>
+			var tagImgEliminar = casilla.find("img");
+			//var tagImgAñadir = casillaInicio[0].firstChild.firstChild;
+			var tagImgAñadir = $("<img src=piezas/Bdama.png/>");
+			console.log(tagImgAñadir);
+			casilla[0].firstChild.removeChild(tagImgEliminar);
+			casilla[0].firstChild.append(tagImgAñadir);		
+		}else{
+
+			var tagImgEliminar = casilla[0].firstChild.firstChild;
+			var tagImgAñadir = casillaInicio[0].firstChild.firstChild;	
+			casilla[0].firstChild.removeChild(tagImgEliminar);
+			casilla[0].firstChild.append(tagImgAñadir);
+			colorAnotar(pieza, numInicio, pieza2+"x");
+
+			var rey = tagImgEliminar.src.substr(63,3);
+
+			if (rey == "rey") {
+				alert(_quienToca + " han perdido");
+
+				if (_quienToca != "blancas") {
+					console.log(_quienToca);
+					var res = "1-0";
+					anotarFinal(res);
+				}else{
+					var res = "0-1"
+					anotarFinal(res);					
+				}				
+			}					
+		}
 
 	}else{
 		// Hacer movimiento normal
@@ -163,6 +184,8 @@ function marcarPieza(casilla){
 	if(_pieza=="" || casilla.hasClass("opt") || casilla.hasClass("dejarPieza") == true){
 		$("#casillas div").removeClass("dejarPieza");
 		$("#casillas div").removeClass("opt");
+		$("#casillas div").removeClass("mPieza");
+
 		return false;
 	}
 
@@ -170,6 +193,8 @@ function marcarPieza(casilla){
 	if(_colorPieza == _quienToca){
 		// Elimino si hay alguna clase dejarPieza en el tablero
 		$("#casillas div").removeClass("dejarPieza");
+		$("#casillas div").removeClass("mPieza");
+
 		// Añado la clase dejar pieza sobre la ultima casilla que marco 
 		casilla.addClass("dejarPieza");
 		return true
@@ -231,7 +256,9 @@ function pieza(casilla){
 
 			if ($("#"+p1).attr("data-pieza")=="") {
 				$("#"+p1).addClass("opt");
-				$("#"+p2).addClass("opt");
+				if ($("#"+p2).attr("data-pieza")==""){
+					$("#"+p2).addClass("opt");			
+				}
 			}	
 
 			peonMata(pM1, pM2);
@@ -259,7 +286,9 @@ function pieza(casilla){
 			
 			if ($("#"+p1).attr("data-pieza")=="") {
 				$("#"+p1).addClass("opt");
-				$("#"+p2).addClass("opt");
+				if ($("#"+p2).attr("data-pieza")==""){
+					$("#"+p2).addClass("opt");			
+				}
 			}	
 
 			peonMata(pM1, pM2);
@@ -577,7 +606,7 @@ function pieza(casilla){
 		
 		var ini = numInicio.substr(0,1);
 		var ini2 = numInicio.substr(1,1);
-		var element = document.createTextNode(pieza+letras[ini]+ini2+"-"+pieza2+letras[num1]+num2);			
+		var element = document.createTextNode(pieza+letras[ini]+ini2+"-"+pieza2+letras[num1]+num2+" ");			
 
 		td.appendChild(element);
 		tr.appendChild(td);
@@ -593,52 +622,101 @@ function pieza(casilla){
 
 		var ini = numInicio.substr(0,1);
 		var ini2 = numInicio.substr(1,1);
-		var element = document.createTextNode(pieza+letras[ini]+ini2+"-"+pieza2+letras[num1]+num2);
+		var element = document.createTextNode(pieza+letras[ini]+ini2+"-"+pieza2+letras[num1]+num2+" ");
 
 		td.appendChild(element);
 		tabla.lastChild.appendChild(td);
 		
 	}
 
+	function anotarFinal(res){
+
+		if (_quienToca != "fin") {
+			var tabla = document.getElementById("planilla");
+			var tr = document.createElement("TR");
+			tabla.appendChild(tr);
+			var td = document.createElement("TD");
+			var element = document.createTextNode(res);
+			td.appendChild(element);
+			tabla.lastChild.appendChild(td);
+			_quienToca = "fin";
+
+			$("#mandar").removeClass("hide");
+
+		}
+	}
+
+
 	function comprobar(array, p){
 		var piezaEnMedio = false;
-
+		var matarPieza = false;
 		if(p.x <= 8 && p.x >= 1){
 
 			if (p.y <= 8 && p.y >= 1) {
 					
 				array.push(p.x+""+p.y);
+				var exitFor = false;
 
 				for (var i = 0; i < array.length ; i++) {
-					//console.log(array[i]);
+					if(!exitFor){
+						//console.log(array[i]);
+							if ($("#"+array[i]).attr("data-pieza")!="") {
+								piezaEnMedio = true;
+								if ($("#"+array[i]).attr("data-color")!=_quienToca) {							
+									matarPieza = true;
+								}
+								exitFor = true;		
+							}
 
-					if ($("#"+array[i]).attr("data-pieza")!="") {
-						piezaEnMedio = true;
-					}
 
-					if (!piezaEnMedio) {
-						
-						$("#"+array[i]).addClass("opt");
-						
-						piezaEnMedio = false;
+						if (!piezaEnMedio || (matarPieza && piezaEnMedio)) {
+							$("#"+array[i]).addClass("opt");
+							if (matarPieza) {
+								$("#"+array[i]).addClass("mPieza");
+
+								matarPieza = false;
+							}
+						}
 					}
 				}
 			}
-
 		}
-		/*
-		var desc0Op = p , substring = "0";
+	}
 
-		if(desc0Op.indexOf(substring) == -1){
-			var desc9Op = p , substring = "9";
-			if (desc9Op.indexOf(substring) == -1) {
-				var descarteNegativos = p , substring = "-";
-				if(descarteNegativos.indexOf(substring) == -1){
-					
-					array.push(p);
-					
-				}
-			}
+	function enviarPartida(){
+		var tabla = $("#planilla").text();
+
+		var jugadas = tabla.split(" ");
+
+		var blancas = [];
+		var negras = [];
+
+		for (var i = 10; i < (jugadas.length-1); i++) {
+			
+			
+			if (i % 2 == 0) {
+				blancas.push(jugadas[i]);
+			}else{
+				negras.push(jugadas[i]);
+			}				
 		}
-		*/
+
+		$("#aBlancas").attr("value", blancas);
+		$("#aNegras").attr("value", negras);
+		$("#aRes").attr("value", $(jugadas).last()[0]);	
+
+		mandar();
+	}
+
+	function mandar(){
+		$.ajax({
+			type: 'POST',
+			//url: 'partida.php',
+			//data: $('#formAjax').serialize(),
+			dataType: 'text',
+			async: true
+		})
+			.fail(function(data) {
+			alert('Error al actualitzar los datos en el servidor');
+		});
 	}
