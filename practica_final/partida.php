@@ -49,7 +49,7 @@
 							<li>
 								<a href="index.php">Inicio</a>
 							</li>
-							<li class="active">
+							<li>
 								<a href="partida.php">Jugar</a>
 							</li>
 							<li>
@@ -57,9 +57,6 @@
 							</li>
 							<li>
 								<a href="" data-toggle="modal" data-target="#Cfun">¿Como funciona?</a>
-							</li>
-							<li>
-								<a href="" data-toggle="modal" data-target="#mPartidas">Mis Partidas</a>
 							</li>
 						</ul>
 						<div id=divDer class='nav navbar-nav navbar-right'>	
@@ -114,7 +111,9 @@
 	        	</div>
 	        	<div class="modal-body">
 	        		<div class="text-center">
-			        	<p> 1- Mis partidas.</p>			       
+			        	<?php 
+			        		misPartidas();			       
+			        	?>			       
 	        		</div>
 	        	</div>
 	        	<div class="modal-footer modal-right">
@@ -132,37 +131,9 @@
 
 		// Si esta vacia mostrara el invitado
 		if ($_SESSION['cliente'] -> getnombre() == "") {	
-			header("Location: login.php");
+			echo "<script type='text/javascript'>window.location.assign('login.php')</script>";
 		}
 	?>
-	<!--
-	<div class="modal fade" id="mostrarmodal" role="dialog">
-	   <div class="modal-dialog">
-	      	<div class="modal-content">
-	        	<div class="modal-header">
-	        		<button type="button" class="close" data-dismiss="modal">&times;</button>
-	            	<h3>¿Jugadores?</h3>
-	    		</div>
-	       		<div class="modal-body">
-		       		<form action="" method="POST">
-		            	<span>Jugador 1:*</span>
-	                	<input type="text" name="login1" class='form-control' pattern="^([a-z]+[0-9]{0,2}){5,12}$" title="Minimo 5 letras, y dos num opcional" required>
-	               		<span>Jugador 2:*</span>
-	                	<input type="text" name="login2" class='form-control' pattern="^([a-z]+[0-9]{0,2}){5,12}$" title="Minimo 5 letras, y dos num opcional" required>
-	                	<br>
-						<span style="color: red;">* Recuerda, si introduces los nombres de los dos jugadores se guardan en la base de datos para poder acceder despues a ver la planilla!</span>
-					</form>	
-				</div>	
-		        <div class="modal-footer">
-		        	<a href="#" data-dismiss="modal" class="btn btn-success" name="enviarJugadores">Enviar</a>
-		        	<a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
-		     	</div>
-	    	</div>
-	   </div>
-	</div>
--->
-
-
 	<?php
 		if (isset($_POST['enviarJugadores'])) {
 		
@@ -187,29 +158,32 @@
 			if ($total > 0 && $total2 > 0 ) {
 				
 				?>
-				<div id="juego" class="container"> 
+				<div id="juego" class="container">
 					<div class="row">
-						<div class="btn-group col-lg-1" id="piezaCoronar" data-toggle="buttons">
+						<div class="col-lg-12 btn-group" id="piezaCoronar" data-toggle="buttons">
+							<h4>Elige pieza</h4>
 							<label class="btn btn-default active">
-								<input type="radio" title="Dama" value="dama" id="rDama" autocomplete="off" chacked>
+								<input type="radio" name="pieza" title="Dama" value="dama" id="rDama" autocomplete="off" checked>
 								<span class="glyphicon glyphicon-queen col-lg-3"></span>
 							</label>
-
 							<label class="btn btn-default">
-								<input type="radio" title="Torre" value="torre" id="rTorre" autocomplete="off">
+								<input type="radio" name="pieza" title="Torre" value="torre" id="rTorre" autocomplete="off">
 								<span class="glyphicon glyphicon-tower col-lg-3"></span>
 							</label>
 
 							<label class="btn btn-default">
-								<input type="radio" title="Caballo" value="caballo" id="rCaballo" autocomplete="off">
+								<input type="radio" name="pieza" title="Caballo" value="caballo" id="rCaballo" autocomplete="off">
 								<span class="glyphicon glyphicon-knight col-lg-3"></span>
 							</label>
 
 							<label class="btn btn-default">
-								<input type="radio" title="Alfil" value="alfil" id="rAlfil" autocomplete="off">
+								<input type="radio" name="pieza" title="Alfil" value="alfil" id="rAlfil" autocomplete="off">
 								<span class="glyphicon glyphicon-bishop col-lg-3"></span>
 							</label>		
 						</div>
+					</div>
+					<div class="row">
+						<div>&nbsp;</div>
 				   		<div class="col-lg-8">
 							<div class="col-md-12">
 								<div class="tablero">
@@ -232,7 +206,7 @@
 									<div>
 										<h1>Anotacion</h1>
 										<table>				  	
-										  	<thead>						  		
+										  	<thead id="jugadores">						  		
 										    	<th><?php echo $player1; ?></th>
 										    	<th><?php echo $player2; ?></th>
 										  	</thead>
@@ -243,10 +217,12 @@
 										  		</tr>
 										  	</tbody>
 										</table><br>
+										<input type='hidden' id="jBlancas" name="jBlancas"/>
+										<input type='hidden' id="jNegras" name="jNegras"/>
 										<input type='hidden' id="aBlancas" name="aBlancas"/>
 										<input type='hidden' id="aNegras" name="aNegras"/>
 										<input type='hidden' id="aRes" name="aRes"/>
-										<input type='button' value="Guardar Partida" class='btn btn-lg btn-info hide' id="mandar" name="mandarPartida" onclick="enviarPartida()"/>
+										<input type='submit' value="Guardar Partida" class='btn btn-lg btn-info hide' id="mandar" name="mandarPartida"/>
 									</div>
 								</form>
 							</div>
@@ -255,31 +231,32 @@
 				</div>
 
 		<?php
-				if (isset($_POST['mandarPartida'])) {
-					//mandarPartida($player1, $player2);
-/*
-					$blancas = $_POST['aBlancas'];
-					$negras = $_POST['aNegras'];
-					$res = $_POST['aRes'];
-
-					$sql = 'INSERT INTO Partida(nick_blancas, nick_negras, resultado, move_blancas, move_negras) VALUES ("'.$player1.'","'.$player2.'","'.$res.'","'.$blancas.'","'.$negras.'")';
-
-					$result3 = sentencia($bd, $sql);
-					var_dump($sql);
-*/
+				}else{
+					apuntarJugadores();
 				}
+			}else if (isset($_POST['mandarPartida'])) {
+				
+				$bd = conexion();
+
+				$player1 = $_POST['jBlancas'];
+				$player2 = $_POST['jNegras'];
+				$blancas = $_POST['aBlancas'];
+				$negras = $_POST['aNegras'];
+				$res = $_POST['aRes'];
+
+				$sql = 'INSERT INTO Partida(nick_blancas, nick_negras, resultado, move_blancas, move_negras) VALUES ("'.$player1.'","'.$player2.'","'.$res.'","'.$blancas.'","'.$negras.'")';
+
+				$result3 = sentencia($bd, $sql);
+				echo "<script type='text/javascript'>alert('La partida se guardo correctamente, puede volver a jugar otra!')</script>";
+				echo "<script type='text/javascript'>window.location.assign('partida.php')</script>";
+
 			}else{
 				apuntarJugadores();
 			}
+		
 		?>
 
 	<?php
-
-		}else{
-			apuntarJugadores();
-			//echo "<script type='text/javascript'>alert('Los logins no existen')</script>";
-		}
-
 		function apuntarJugadores(){
 	?>
 		<div class="container">
