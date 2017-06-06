@@ -4,34 +4,6 @@
 	include_once('conexionBd.php');	
 	session_start();
 
-	// Todas las funciones de php
-	function crearTablero(){
-		// Creamos un array para la anotacion de cada casilla
-		$letras = array(1 => "a", 2 => "b", 3 => "c", 4 => "d", 5 => "e", 6 => "f", 7 => "g", 8 => "h");
-
-		// Hacemos dos for para crear el tablero de 8 x 8
-		for($a = 8; $a>=1; $a--){
-			for($i = 1; $i<=8; $i++){
-				if($a%2==0){
-					// Le agregamos la casilla con su identificador y la clase trash para arrastrar y soltar
-					if($i%2==0)
-					{
-						echo '<div class="negro" id="c'.$letras[$i].$a.'"><span class="trash" id="'.$letras[$i].$a.'"></span></div>';
-					}else{
-						echo '<div class="blanco" id="c'.$letras[$i].$a.'"><span class="trash" id="'.$letras[$i].$a.'"></span></div>';
-					}
-				}
-				else{					
-					if($i%2==0){
-						echo '<div class="blanco" id="c'.$letras[$i].$a.'"><span class="trash" id="'.$letras[$i].$a.'"></span></div>';
-					}else{
-						echo '<div class="negro" id="c'.$letras[$i].$a.'"><span class="trash" id="'.$letras[$i].$a.'"></span></div>';
-					}
-				}
-			}
-		}
-	}
-
 	/*										Con esta funcion compruebo si hay usuario registrado											*/
 	function usuario(){		
 		
@@ -65,6 +37,9 @@
 			                <li><a href="modificarCuenta.php"><i class="icon-cog"></i> Modificar perfil</a></li>
 			                <li><a href="modificarCuenta.php"><i class="icon-envelope"></i> <?php echo "<img src='usuarios/cliente.png' alt='cliente' style='width: 25px;' >"; ?></a></li>
 			                <li class="divider"></li>
+			                <li>
+								<a href="" data-toggle="modal" data-target="#mPartidas">Mis Partidas</a>
+							</li>
 			                <li><a href=""><i class="icon-cog"></i> <?php  echo " Elo: " . $_SESSION['cliente'] -> getelo(); ?></a></li>
 			                <li class="divider"></li>
 			                <li><a href="php/quitar.php"><i class="icon-off"></i> Logout</a></li>
@@ -84,6 +59,9 @@
 		                    <li><a href="modificarCuenta.php"><i class="icon-cog"></i> Modificar perfil</a></li>
 		                    <li><a href="modificarCuenta.php"><i class="icon-envelope"></i> <?php echo "<img src='usuarios/" . $_SESSION['cliente'] -> getavatar() ."' alt='cliente' style='width: 25px;' >"; ?></a></li>
 		               		<li class="divider"></li>
+							<li>
+								<a href="" data-toggle="modal" data-target="#mPartidas">Mis Partidas</a>
+							</li>
 			                <li><a href=""><i class="icon-cog"></i> <?php  echo " Elo: " . $_SESSION['cliente'] -> getelo(); ?></a></li>
 			                <li class="divider"></li>
 		                    <li><a href="php/quitar.php"><i class="icon-off"></i> Logout</a></li>
@@ -95,6 +73,48 @@
 			}
 		}	
 	}
+
+	function misPartidas(){
+
+		$bd = conexion();
+
+		$consuBlancas = 'SELECT * FROM Partida WHERE nick_blancas = "'.$_SESSION['cliente'] -> getlogin().'" OR nick_negras = "'.$_SESSION['cliente'] -> getlogin().'"';
+
+		$resultBlancas = sentencia($bd, $consuBlancas);
+		$totalB = $resultBlancas -> num_rows;
+
+		if ($totalB > 0) {
+			
+			while ($fila = $resultBlancas -> fetch_row()) {
+
+				$jBlancas = explode(' ', $fila[4]);
+				$jNegras = explode(' ', $fila[5]);
+
+				echo "<h3 class='ListaJugadores'>".$fila[0]." - ".$fila[1]."</h3>";
+				?>
+
+				<table>				  	
+				  	<thead>						  		
+				    	<th>Blancas</th>
+				    	<th>Negras</th>
+				  	</thead>
+				  	<tbody>
+				  		<?php 
+				  			foreach ($jBlancas as $key => $value) {
+				  				echo "<tr>";
+				  					echo "<td>".$value."</td>";
+				  					echo "<td>".@$jNegras[$key]."</td>";
+				  				echo "</tr>";
+				  			}
+				  		?>
+				  	</tbody>
+				</table>
+				<h4><?php echo $fila[3]; ?></h4>
+
+				<?php
+			}
+		}
+	}	
 
 	/*										Con esta funcion inserto un usuario a la bd												*/
 
@@ -162,7 +182,7 @@
 		$totalUsu = $resultUsu -> num_rows;
 		$totalPass = $resultPass -> num_rows;
 		
-		// Si el numero es mayor a 0, ya existira ese nick, por lo que no sera volcado a la bd
+		// Si el numero es mayor a 0, existira ese login
 		if ($totalUsu > 0) {
 
 			// Creamos un objeto
@@ -211,7 +231,7 @@
 							closeBd($bd);
 
 							// Mando a otra pagina
-							header("Location: index.php");
+							echo "<script type='text/javascript'>window.location.assign('index.php')</script>";
 
 
 					// Si el usuario y la contraseña no coinciden
