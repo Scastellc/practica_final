@@ -1,5 +1,3 @@
-
-
 // Variables globales, para saber a quien toca, el color de la pieza y la pieza
 var _quienToca = "blancas";
 var _colorPieza = "";
@@ -10,40 +8,42 @@ var letras = ["","a", "b", "c", "d", "e", "f", "g", "h"];
 
 $(document).ready(function(){
 
- 	$("#mostrarmodal").modal("show");
-
 	tablero();
 	piezas();
 
+	// Cuando pulse algun div que esta dentro de tablero
 	$("#casillas div").click(function($event){
 		var casilla = $($event.currentTarget);
+		// Recupero la pieza y el color
 		_pieza = casilla.attr("data-pieza");
 		_colorPieza = casilla.attr("data-color");	
-		var liPieza = $event.currentTarget.parentNode;
 
-		//movimiento
+		// Si la casilla donde pulso tiene la clase opt se podra mover a esa casilla
 		if(casilla.hasClass("opt")){
 			moverPieza(casilla);			
 		}
 
+		// Si hay una pieza marcada
 		if(marcarPieza(casilla)){
 			// Elimino todas las clase opt que quedaban
 			$("#casillas div").removeClass("opt");
+			$("#casillas div").removeClass("mPieza");
+			
+			// Llamo a la funcion pieza
 			pieza(casilla);
 		};
-
 	})
 });
 
+// Esta funcion se encarga del movimiento de las piezas
 function moverPieza(casilla){
 	var casillaInicio = $(".dejarPieza");
 	_pieza = casillaInicio.attr("data-pieza");
 	_colorPieza = casillaInicio.attr("data-color");
 	
-	
+	// Para los peones en primero o octava
 	var ids = casilla.attr("id");
 	var ultima = ids.substr(1,1);
-
 
 	// Anotacion
 	var pieza = _pieza.substr(0,1).toUpperCase();
@@ -58,20 +58,8 @@ function moverPieza(casilla){
 		casillaInicio.attr("data-pieza","");
 
 		if (_pieza == "peon" && (ultima == 8 || ultima == 1)) {
-		/*
-			//<img src="piezas/N'+$(negras[i]).selector+'.png"/>
-			var tagImgEliminar = casilla.find("img");
-			//var tagImgAñadir = casillaInicio[0].firstChild.firstChild;
-			var tagImgAñadir = $('<img src=piezas/Bdama.png/>');
-			console.log(tagImgAñadir);
-			casilla[0].firstChild.removeChild(tagImgEliminar);
-			casilla[0].firstChild.append(tagImgAñadir);		
-		
-			var tagImgE = casilla.find("img");
-			casilla[0].firstChild.removeChild(tagImgE);
-			console.log(tagImgE);
-*/
-			peonCorona(casilla);
+
+			peonCorona(casilla, casillaInicio, true, numInicio, pieza2);
 
 		}else{
 
@@ -98,35 +86,58 @@ function moverPieza(casilla){
 			}					
 		}
 
-	}else{
 		// Hacer movimiento normal
+	}else{
+
+		if (_pieza == "peon" && (ultima == 8 || ultima == 1)) {
+
+			peonCorona(casilla, casillaInicio, false, numInicio, pieza2);
+
+		}else{
+
+		// Añade atributos
 		casilla.attr("data-color",casillaInicio.attr("data-color"));
 		casilla.attr("data-pieza",casillaInicio.attr("data-pieza"));
+
+		// Vacia los atributos de la casilla donde estaba
 		casillaInicio.attr("data-color","");
 		casillaInicio.attr("data-pieza","");				
 
+		// Elimina y añade la imagen de la casilla de inicio a la casilla final
 		var tagImg = casillaInicio[0].firstChild.firstChild;
 		casillaInicio[0].firstChild.removeChild(tagImg);
-		casilla[0].firstChild.append(tagImg);
-		colorAnotar(pieza, numInicio, pieza2);
+		casilla[0].firstChild.append(tagImg);		
+		colorAnotar(pieza, numInicio, pieza2, false, numInicio, pieza2);
+		}
 	}
 }
 
-function colorAnotar(pieza, numInicio, pieza2){
-	//cambiar turno				
+// Esta funcion sirve para llamar a la funcion de anotar, y para saber a que jugador toca
+function colorAnotar(pieza, numInicio, pieza2, corona ,piezaCoronar){
+	
+	// Cambiar turno				
 	if( _quienToca == "blancas"){
+
+		// Si es un peon no se pone su inicial
 		if (pieza != "P") {
-			anotacionB(pieza, numInicio, pieza2);					
+			anotacionB(pieza, numInicio, pieza2, false, piezaCoronar);					
+		}else if (corona == true) {
+			anotacionB(pieza, numInicio, pieza2, true, piezaCoronar);
 		}else{
-			anotacionB("", numInicio, "");
+			anotacionB("", numInicio, "", false, piezaCoronar);
 		}
-		_quienToca = "negras";					
+		// Se cambia el turno a negras
+		_quienToca = "negras";
+
 	}else{
 		if (pieza != "P") {
-			anotacionN(pieza, numInicio, pieza2);					
+			anotacionN(pieza, numInicio, pieza2, false, piezaCoronar);					
+		}else if (corona == true) {
+			anotacionN(pieza, numInicio, pieza2, true, piezaCoronar);
 		}else{
-			anotacionN("",numInicio, "");
+			anotacionN("", numInicio, "", false, piezaCoronar);
 		}
+		// Se cambia el turno a blancas
 		_quienToca = "blancas";
 	}	
 }
@@ -152,6 +163,7 @@ function tablero(){
 					color = "negro";
 				}
 			}
+			// Añadimos el div y el li 
 			$("#casillas").append("<div data-pieza=\"\" data-color=\"\" class='" + color + "' id='" + x+""+y + "'><li title='"+letras[x]+""+y+"' id='L"+x+""+y+"'></li>");
 		}
 	}
@@ -168,6 +180,7 @@ function piezas(){
 		$("#"+i+"1").html('<li title="'+letras[i]+1+'" id="'+letras[i]+1+'"><img src="piezas/B'+$(blancas[i]).selector+'.png"/></li>');
 		$("#"+i+"2").html('<li title="'+letras[i]+2+'" id="'+letras[i]+2+'"><img src="piezas/B'+$(blancas[0]).selector+'.png"/></li>');
 
+		// Añadimos los atributos
 		$("#"+i+"1").attr("data-pieza",blancas[i]);
 		$("#"+i+"1").attr("data-color","blancas");
 		$("#"+i+"2").attr("data-pieza",blancas[0]);
@@ -311,33 +324,43 @@ function pieza(casilla){
 
 	function peonMata (pM1, pM2){
 		if ($("#"+pM1).attr("data-color") != "" && $("#"+pM1).attr("data-color") != _quienToca) {				
-			$("#"+pM1).addClass("opt");				
+			$("#"+pM1).addClass("opt");
+			$("#"+pM1).addClass("mPieza");			
 		}
 		if ($("#"+pM2).attr("data-color") != "" && $("#"+pM2).attr("data-color") != _quienToca) {				
-			$("#"+pM2).addClass("opt");				
+			$("#"+pM2).addClass("opt");
+			$("#"+pM2).addClass("mPieza");					
 		}
 	}
 
-	function peonCorona(casilla){
-		//var piezaCoronar = $("#piezaCoronar");
+	function peonCorona(casilla, casillaInicio, matar, numInicio, pieza2){
+			
+			var tagImgEmilinarPeon = casillaInicio[0].firstChild.firstChild;
+			casillaInicio[0].firstChild.removeChild(tagImgEmilinarPeon);
+			
+			var tituloLi = $(casilla[0].firstChild).attr("title");
+			var idLi = $(casilla[0].firstChild).attr("id");
+			
+			var letra = _quienToca.substring(0,1).toUpperCase();
+			var piezaElegida = $('input:radio[name=pieza]:checked').val();	
+			
 		
+		if (matar == true) {	
+			var tagImgEliminar = casilla[0].firstChild.firstChild;
+			casilla[0].firstChild.removeChild(tagImgEliminar);			
+		}
+			
+			$(casilla[0]).html('<li title="'+tituloLi+'" id="'+idLi+'"><img src="piezas/'+letra+piezaElegida+'.png"/></li>');
+			// Añade atributos
+			casilla.attr("data-color",_quienToca);
+			casilla.attr("data-pieza", piezaElegida);
 
-		var tagImgEliminar = casilla[0].firstChild.firstChild;
-		console.log(tagImgEliminar);
-		casilla[0].firstChild.removeChild(tagImgEliminar);
-		
-		var img = document.createElement('img');
-		$(img).attr("scr","piezas/Btorre.png")
-		
-		//var element = document.createTextNode('<img src="piezas/Bdama.png"/>');		
-		//img.appendChild(element);
-		
+			// Vacia los atributos de la casilla donde estaba
+			casillaInicio.attr("data-color","");
+			casillaInicio.attr("data-pieza","");
 
-		//var tagImgAñadir = "<img src=piezas/Bdama.png/>";
-		casilla[0].firstChild.append(img);
-		/*
-		console.log(tagImgAñadir);	
-		*/
+			colorAnotar("P", numInicio, pieza2, true, piezaElegida);
+
 	}
 
 	// Funcion para poder mover el rey
@@ -370,7 +393,12 @@ function pieza(casilla){
 		for (var i = 0; i < optRey.length; i++) {
 			// Le añadimos la clase para que cambie de color
 			if ($("#"+optRey[i]).attr("data-color")!=_quienToca) {
-				$("#"+optRey[i]).addClass("opt");						
+				if ($("#"+optRey[i]).attr("data-pieza") == "") {
+					$("#"+optRey[i]).addClass("opt");
+				}else{
+					$("#"+optRey[i]).addClass("mPieza");
+					$("#"+optRey[i]).addClass("opt");
+				}						
 			}	
 		}
 	}
@@ -440,11 +468,6 @@ function pieza(casilla){
 			comprobar(optDama.arr_7, p8);
 
 		}
-		/*
-		for (var i = 0; i < optDama.length; i++) {
-			$("#"+optDama[i]).addClass("opt");
-		}
-		*/
 	}
 
 	function moveAlfil(xIni, yIni){		
@@ -482,13 +505,7 @@ function pieza(casilla){
 				y: (parseY - x)
 			}
 			comprobar(optAlfil.arr_3, p4);
-
 		}
-/*
-		for (var i = 0; i < optAlfil.length; i++) {
-			$("#"+optAlfil[i]).addClass("opt");
-		}
-*/
 	}
 
 	function moveCaballo(xIni, yIni){		
@@ -518,7 +535,13 @@ function pieza(casilla){
 				var descarteNegativos = optCaballo[i] , substring = "-";
 				if(descarteNegativos.indexOf(substring) == -1){					
 					if ($("#"+optCaballo[i]).attr("data-color")!=_quienToca) {
-						$("#"+optCaballo[i]).addClass("opt");						
+						if ($("#"+optCaballo[i]).attr("data-pieza") == "") {
+							$("#"+optCaballo[i]).addClass("opt");
+						}else{
+							$("#"+optCaballo[i]).addClass("mPieza");
+							$("#"+optCaballo[i]).addClass("opt");
+						}
+												
 					}
 				}
 			}
@@ -564,7 +587,7 @@ function pieza(casilla){
 		}
 	}
 
-	function anotacionB(pieza, numInicio, pieza2){
+	function anotacionB(pieza, numInicio, pieza2, coronacion, piezaCoronar){
 		var tabla = document.getElementById("planilla");
 		var tr = document.createElement("TR");
 		tabla.appendChild(tr);
@@ -576,7 +599,12 @@ function pieza(casilla){
 		
 		var ini = numInicio.substr(0,1);
 		var ini2 = numInicio.substr(1,1);
-		var element = document.createTextNode(pieza+letras[ini]+ini2+"-"+pieza2+letras[num1]+num2+" ");			
+		if (coronacion == false) {
+			var element = document.createTextNode(pieza+letras[ini]+ini2+"-"+pieza2+letras[num1]+num2+" ");						
+		}else{
+			pCorono = piezaCoronar.substr(0,1).toUpperCase;
+			var element = document.createTextNode(letras[ini]+ini2+"-"+letras[num1]+num2+"="+pCorono);
+		}
 
 		td.appendChild(element);
 		tr.appendChild(td);
@@ -612,7 +640,7 @@ function pieza(casilla){
 			_quienToca = "fin";
 
 			$("#mandar").removeClass("hide");
-
+			enviarPartida();
 		}
 	}
 
@@ -656,49 +684,26 @@ function pieza(casilla){
 		var tabla = $("#planilla").text();
 
 		var jugadas = tabla.split(" ");
+		var blancas = "";
+		var negras = "";
 
-		var blancas = [];
-		var negras = [];
-		var todo = [];
 		for (var i = 10; i < (jugadas.length-1); i++) {
-			
-			
+						
 			if (i % 2 == 0) {
-				blancas.push(jugadas[i]);
+				blancas = blancas + " " + jugadas[i];
 			}else{
-				negras.push(jugadas[i]);
+				negras = negras + " " + jugadas[i];
 			}				
 		}
-/*
+
+		var jugadores = $("#jugadores")[0].innerText;
+		var jugador = jugadores.split("	");
+		var jBlancas = jugador[0];
+		var jNegras = jugador[1];
+		
+		$("#jBlancas").attr("value", jBlancas);
+		$("#jNegras").attr("value", jNegras);
 		$("#aBlancas").attr("value", blancas);
 		$("#aNegras").attr("value", negras);
-		$("#aRes").attr("value", $(jugadas).last()[0]);	
-*/
-		todo.push(blancas,negras,$(jugadas).last()[0]);
-
-
-		var data = $(todo).serializeArray();
-
-		mandar();
-	}
-
-	function mandar(){
-		
-		$.ajax({
-			url: 'partida.php',
-			type: 'POST',
-			data: data,
-			dataType: 'json',
-			async: true
-		})
-			.fail(function(data) {
-			alert('Error al actualitzar los datos en el servidor');
-		});
-		
-/*
-		var data = $("#formAjax :input").serialize();
-
-		var pet = "funciones.php"; 
-		$.post(pet, data)
-*/
+		$("#aRes").attr("value", $(jugadas).last()[0]);		
 	}
