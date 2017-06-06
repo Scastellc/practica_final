@@ -50,7 +50,7 @@
 						</ul>
 						<div id=divDer class='nav navbar-nav navbar-right'>	
 							
-							<?php
+							<?php			
 								usuario();
 							?>
 				    
@@ -60,7 +60,8 @@
 		    </nav>
 	    </div>
 	</div>
-				<!-- 				Modal de manual							-->
+
+				<!-- 			Modal de como funciona					-->
 	<div class="modal fade" id="Cfun" role="dialog">
 	    <div class="modal-dialog">
 			<!-- 					Contenedor del modal 				-->
@@ -70,8 +71,15 @@
 	          		<h3 class="modal-title">Funcionamiento</h3>
 	        	</div>
 	        	<div class="modal-body">
-	        		<div class="text-center">	        			     	
-			        	<p> "Como funciona y eso..." </p>	    		
+	        		<div class="text-center">
+			        	<p> 1- Estar registrado en la pagina.</p>
+			        	<p> 2- Encontrar ha alguien que quiera jugar!</p>
+			        	<p>	3- Una vez logrado los dos pasos anteriores iremos al apartado de jugar, al entrar nos pedira que <strong>introduzcamos los nicks de dos usuarios registrados</strong> </p>
+			        	<p>	4- Jugar la partida uno contra el otro a ver quien sabe mas!</p>
+			        	<p> 5- Dentro de la partida podremos hacer tablas o abandonar, este juego de ajedrez tiene unas normas mas peculiares, aquí si se gana comiendo el rey, y no hay enroques.</p>
+			        	<p> 6- ¡¡Importante a la hora de coronar un peon tener seleccionada antes la pieza que queremos coronar!!</p>
+			        	<p> 7- Una vez terminada la partida podremos guardar la partida dandole al boton de pone: "Guardar Partida" que aparecera al finalizar la partida, para en un futuro volver a ver la planilla, en el apartado de mis partidas</p>
+			        	<p> Por ultimo <strong>toca disfrutar entre amigos a ver quien es mas bueno!!</strong></p>	
 	        		</div>
 	        	</div>
 	        	<div class="modal-footer modal-right">
@@ -81,7 +89,43 @@
 	    </div>
 	</div>
 
-
+					<!-- 			Modal de mis partidas				-->
+	<div class="modal fade" id="mPartidas" role="dialog">
+	    <div class="modal-dialog">
+			<!-- 					Contenedor del modal 				-->
+	    	<div class="modal-content">
+	        	<div class="modal-header">
+	          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+	          		<h3 class="modal-title">Mis partidas</h3>
+	        	</div>
+	        	<div class="modal-body">
+	        		<div class="text-center">
+			        	<?php 
+			        		misPartidas();			       
+			        	?>
+	        		</div>
+	        	</div>
+	        	<div class="modal-footer modal-right">
+		        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+	        	</div>
+	      	</div>
+	    </div>
+	</div>
+	<div class="panel-body">
+	    <div class="panel2">
+	        <div class="row"> 
+				<div class="col-md-6" style="margin-left: 20%;">
+					<h1 class="col-md-12">Bienvenidos</h1>
+					<p> Esta pagina esta creada por Salva Castell, alumno de FPGS de Desarrollo de aplicaciones web.</p>
+					<p>Por el momento, en la pagina se puede jugar una partida de ajedrez en el mismo pc.</p>
+					<p>Poco a poco integrando mas propiedades a la pagina, como por ejemplo que se pueda jugar online, que se pueda añadir un modulo y incluso jugar contra el modulo, ejercicios de tactica para mejorar nuestro nivel.</p>
+					<p> Actualizare las noticias para estar teneros lo informados posible</p>
+					<p>Y recordar esta pagina es para pasarlo bien y encima es gratiuta!</p>
+				</div>
+				 
+			</div>
+		</div>
+	</div>
 
 
 		<!-- 			Con este div separamos el footer				-->
