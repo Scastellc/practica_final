@@ -35,217 +35,215 @@ $(document).ready(function(){
 	})
 });
 
-// Esta funcion se encarga del movimiento de las piezas
-function moverPieza(casilla){
-	var casillaInicio = $(".dejarPieza");
-	_pieza = casillaInicio.attr("data-pieza");
-	_colorPieza = casillaInicio.attr("data-color");
-	
-	// Para los peones en primero o octava
-	var ids = casilla.attr("id");
-	var ultima = ids.substr(1,1);
+	// Esta funcion se encarga del movimiento de las piezas
+	function moverPieza(casilla){
+		var casillaInicio = $(".dejarPieza");
+		_pieza = casillaInicio.attr("data-pieza");
+		_colorPieza = casillaInicio.attr("data-color");
+		
+		// Para los peones en primero o octava
+		var ids = casilla.attr("id");
+		var ultima = ids.substr(1,1);
 
-	// Anotacion
-	var pieza = _pieza.substr(0,1).toUpperCase();
-	var pieza2 = _pieza.substr(0,1).toUpperCase();
-	var numInicio = casillaInicio.attr("id");
+		// Anotacion
+		var pieza = _pieza.substr(0,1).toUpperCase();
+		var pieza2 = _pieza.substr(0,1).toUpperCase();
+		var numInicio = casillaInicio.attr("id");
 
-	// Matar pieza
-	if (casilla.attr("data-pieza")!="") {		
-		casilla.attr("data-color",_colorPieza);
-		casilla.attr("data-pieza",_pieza);
-		casillaInicio.attr("data-color","");
-		casillaInicio.attr("data-pieza","");
+		// Matar pieza
+		if (casilla.attr("data-pieza")!="") {		
+			casilla.attr("data-color",_colorPieza);
+			casilla.attr("data-pieza",_pieza);
+			casillaInicio.attr("data-color","");
+			casillaInicio.attr("data-pieza","");
 
-		if (_pieza == "peon" && (ultima == 8 || ultima == 1)) {
+			if (_pieza == "peon" && (ultima == 8 || ultima == 1)) {
 
-			peonCorona(casilla, casillaInicio, true, numInicio, pieza2);
+				peonCorona(casilla, casillaInicio, true, numInicio, pieza2);
 
-		}else{
-
-			var tagImgEliminar = casilla[0].firstChild.firstChild;
-			var tagImgAñadir = casillaInicio[0].firstChild.firstChild;
-			console.log(tagImgEliminar);
-			console.log(tagImgAñadir);	
-			casilla[0].firstChild.removeChild(tagImgEliminar);
-			casilla[0].firstChild.append(tagImgAñadir);
-			colorAnotar(pieza, numInicio, pieza2+"x");
-
-			var rey = tagImgEliminar.src.substr(63,3);
-
-			if (rey == "rey") {
-				alert(_quienToca + " han perdido");
-
-				if (_quienToca != "blancas") {					
-					var res = "1-0";
-					anotarFinal(res);
-				}else{
-					var res = "0-1"
-					anotarFinal(res);					
-				}				
-			}					
-		}
-
-		// Hacer movimiento normal
-	}else{
-
-		if (_pieza == "peon" && (ultima == 8 || ultima == 1)) {
-
-			peonCorona(casilla, casillaInicio, false, numInicio, pieza2);
-
-		}else{
-
-		// Añade atributos
-		casilla.attr("data-color",casillaInicio.attr("data-color"));
-		casilla.attr("data-pieza",casillaInicio.attr("data-pieza"));
-
-		// Vacia los atributos de la casilla donde estaba
-		casillaInicio.attr("data-color","");
-		casillaInicio.attr("data-pieza","");				
-
-		// Elimina y añade la imagen de la casilla de inicio a la casilla final
-		var tagImg = casillaInicio[0].firstChild.firstChild;
-		casillaInicio[0].firstChild.removeChild(tagImg);
-		casilla[0].firstChild.append(tagImg);		
-		colorAnotar(pieza, numInicio, pieza2, false, numInicio, pieza2);
-		}
-	}
-}
-
-// Esta funcion sirve para llamar a la funcion de anotar, y para saber a que jugador toca
-function colorAnotar(pieza, numInicio, pieza2, corona ,piezaCoronar){
-	
-	// Cambiar turno				
-	if( _quienToca == "blancas"){
-
-		// Si es un peon no se pone su inicial
-		if (pieza != "P") {
-			anotacionB(pieza, numInicio, pieza2, false, piezaCoronar);					
-		}else if (corona == true) {
-			anotacionB(pieza, numInicio, pieza2, true, piezaCoronar);
-		}else{
-			anotacionB("", numInicio, "", false, piezaCoronar);
-		}
-		// Se cambia el turno a negras
-		_quienToca = "negras";
-
-	}else{
-		if (pieza != "P") {
-			anotacionN(pieza, numInicio, pieza2, false, piezaCoronar);					
-		}else if (corona == true) {
-			anotacionN(pieza, numInicio, pieza2, true, piezaCoronar);
-		}else{
-			anotacionN("", numInicio, "", false, piezaCoronar);
-		}
-		// Se cambia el turno a blancas
-		_quienToca = "blancas";
-	}	
-}
-
-
-// Funcion para crear el tablero
-function tablero(){	
-
-	// Hacemos dos for para crear el tablero de 8 x 8
-	for(var y = 8; y >= 1; y--){
-		for (var x = 1; x <= 8; x++){
-			var color = "";
-			if(y%2==0){
-				if(x%2==0){
-					color = "negro";
-				}else{
-					color = "blanco";
-				}
 			}else{
-				if(x%2==0){
-					color = "blanco";	
-				}else{
-					color = "negro";
-				}
+
+				var tagImgEliminar = casilla[0].firstChild.firstChild;
+				var tagImgAñadir = casillaInicio[0].firstChild.firstChild;
+
+				casilla[0].firstChild.removeChild(tagImgEliminar);
+				casilla[0].firstChild.append(tagImgAñadir);
+				colorAnotar(pieza, numInicio, pieza2+"x");
+
+				var rey = tagImgEliminar.src.substr(63,3);
+
+				if (rey == "rey") {
+					alert(_quienToca + " han perdido");
+
+					if (_quienToca != "blancas") {					
+						var res = "1-0";
+						anotarFinal(res);
+					}else{
+						var res = "0-1"
+						anotarFinal(res);					
+					}				
+				}					
 			}
-			// Añadimos el div y el li 
-			$("#casillas").append("<div data-pieza=\"\" data-color=\"\" class='" + color + "' id='" + x+""+y + "'><li title='"+letras[x]+""+y+"' id='L"+x+""+y+"'></li>");
+
+			// Hacer movimiento normal
+		}else{
+
+			if (_pieza == "peon" && (ultima == 8 || ultima == 1)) {
+
+				peonCorona(casilla, casillaInicio, false, numInicio, pieza2);
+
+			}else{
+
+			// Añade atributos
+			casilla.attr("data-color",casillaInicio.attr("data-color"));
+			casilla.attr("data-pieza",casillaInicio.attr("data-pieza"));
+
+			// Vacia los atributos de la casilla donde estaba
+			casillaInicio.attr("data-color","");
+			casillaInicio.attr("data-pieza","");				
+
+			// Elimina y añade la imagen de la casilla de inicio a la casilla final
+			var tagImg = casillaInicio[0].firstChild.firstChild;
+			casillaInicio[0].firstChild.removeChild(tagImg);
+			casilla[0].firstChild.append(tagImg);		
+			colorAnotar(pieza, numInicio, pieza2, false, numInicio, pieza2);
+			}
 		}
 	}
-}
 
-// Funcion para colocar las piezas en el tablero
-function piezas(){
+	// Esta funcion sirve para llamar a la funcion de anotar, y para saber a que jugador toca
+	function colorAnotar(pieza, numInicio, pieza2, corona ,piezaCoronar){
+		
+		// Cambiar turno				
+		if( _quienToca == "blancas"){
 
-	// Imagenes de piezas blancas y negras
-	var blancas = ["peon","torre","caballo","alfil","dama","rey","alfil","caballo","torre"];
-	var negras = ["peon","torre","caballo","alfil","dama","rey","alfil","caballo","torre"];
+			// Si es un peon no se pone su inicial
+			if (pieza != "P") {
+				anotacionB(pieza, numInicio, pieza2, false, piezaCoronar);					
+			}else if (corona == true) {
+				anotacionB("", numInicio, pieza2, true, piezaCoronar);
+			}else{
+				anotacionB("", numInicio, "", false, piezaCoronar);
+			}
+			// Se cambia el turno a negras
+			_quienToca = "negras";
 
-	for (var i = 1; i < 9; i++) {
-		$("#"+i+"1").html('<li title="'+letras[i]+1+'" id="'+letras[i]+1+'"><img src="piezas/B'+$(blancas[i]).selector+'.png"/></li>');
-		$("#"+i+"2").html('<li title="'+letras[i]+2+'" id="'+letras[i]+2+'"><img src="piezas/B'+$(blancas[0]).selector+'.png"/></li>');
-
-		// Añadimos los atributos
-		$("#"+i+"1").attr("data-pieza",blancas[i]);
-		$("#"+i+"1").attr("data-color","blancas");
-		$("#"+i+"2").attr("data-pieza",blancas[0]);
-		$("#"+i+"2").attr("data-color","blancas");
-	}
-	for (var i = 9; i > 0; i--) {
-		$("#"+i+"8").html('<li title="'+letras[i]+8+'" id="'+letras[i]+8+'"><img src="piezas/N'+$(negras[i]).selector+'.png"/></li>');
-		$("#"+i+"7").html('<li title="'+letras[i]+7+'" id="'+letras[i]+7+'"><img src="piezas/N'+$(negras[0]).selector+'.png"/></li>');
-
-		$("#"+i+"8").attr("data-pieza",negras[i]);
-		$("#"+i+"8").attr("data-color","negras");
-		$("#"+i+"7").attr("data-pieza",negras[0]);
-		$("#"+i+"7").attr("data-color","negras");
-	}
-
-}
-
-// Esta funcion marca o desmarca la pieza que has seleccionado
-function marcarPieza(casilla){
-	
-	if(_pieza=="" || casilla.hasClass("opt") || casilla.hasClass("dejarPieza") == true){
-		$("#casillas div").removeClass("dejarPieza");
-		$("#casillas div").removeClass("opt");
-		$("#casillas div").removeClass("mPieza");
-
-		return false;
+		}else{
+			if (pieza != "P") {
+				anotacionN(pieza, numInicio, pieza2, false, piezaCoronar);					
+			}else if (corona == true) {
+				anotacionN("", numInicio, pieza2, true, piezaCoronar);
+			}else{
+				anotacionN("", numInicio, "", false, piezaCoronar);
+			}
+			// Se cambia el turno a blancas
+			_quienToca = "blancas";
+		}	
 	}
 
-	// Si el color de la pieza es el mismo que al jugador que le toca,
-	if(_colorPieza == _quienToca){
-		// Elimino si hay alguna clase dejarPieza en el tablero
-		$("#casillas div").removeClass("dejarPieza");
-		$("#casillas div").removeClass("mPieza");
 
-		// Añado la clase dejar pieza sobre la ultima casilla que marco 
-		casilla.addClass("dejarPieza");
-		return true
+	// Funcion para crear el tablero
+	function tablero(){	
+
+		// Hacemos dos for para crear el tablero de 8 x 8
+		for(var y = 8; y >= 1; y--){
+			for (var x = 1; x <= 8; x++){
+				var color = "";
+				if(y%2==0){
+					if(x%2==0){
+						color = "negro";
+					}else{
+						color = "blanco";
+					}
+				}else{
+					if(x%2==0){
+						color = "blanco";	
+					}else{
+						color = "negro";
+					}
+				}
+				// Añadimos el div y el li 
+				$("#casillas").append("<div data-pieza=\"\" data-color=\"\" class='" + color + "' id='" + x+""+y + "'><li title='"+letras[x]+""+y+"' id='L"+x+""+y+"'></li>");
+			}
+		}
 	}
-}
 
-function pieza(casilla){
+	// Funcion para colocar las piezas en el tablero
+	function piezas(){
 
-	var xIni = casilla.attr("id")[0];
-	var yIni = casilla.attr("id")[1];
+		// Imagenes de piezas blancas y negras
+		var blancas = ["peon","torre","caballo","alfil","dama","rey","alfil","caballo","torre"];
+		var negras = ["peon","torre","caballo","alfil","dama","rey","alfil","caballo","torre"];
 
-	switch(_pieza){
-		case "rey":
-			moveRey(xIni, yIni);
-			break;
-		case "dama":
-			moveDama(xIni, yIni);
-			break;		
-		case "alfil":
-			moveAlfil(xIni, yIni);
-			break;			
-		case "caballo":
-			moveCaballo(xIni, yIni);
-			break;				
-		case "torre":
-			moveTorre(xIni, yIni);		
-			break;			
-		default:
-			colorPeon(xIni, yIni);
+		for (var i = 1; i < 9; i++) {
+			$("#"+i+"1").html('<li title="'+letras[i]+1+'" id="'+letras[i]+1+'"><img src="piezas/B'+$(blancas[i]).selector+'.png"/></li>');
+			$("#"+i+"2").html('<li title="'+letras[i]+2+'" id="'+letras[i]+2+'"><img src="piezas/B'+$(blancas[0]).selector+'.png"/></li>');
+
+			// Añadimos los atributos
+			$("#"+i+"1").attr("data-pieza",blancas[i]);
+			$("#"+i+"1").attr("data-color","blancas");
+			$("#"+i+"2").attr("data-pieza",blancas[0]);
+			$("#"+i+"2").attr("data-color","blancas");
+		}
+		for (var i = 9; i > 0; i--) {
+			$("#"+i+"8").html('<li title="'+letras[i]+8+'" id="'+letras[i]+8+'"><img src="piezas/N'+$(negras[i]).selector+'.png"/></li>');
+			$("#"+i+"7").html('<li title="'+letras[i]+7+'" id="'+letras[i]+7+'"><img src="piezas/N'+$(negras[0]).selector+'.png"/></li>');
+
+			$("#"+i+"8").attr("data-pieza",negras[i]);
+			$("#"+i+"8").attr("data-color","negras");
+			$("#"+i+"7").attr("data-pieza",negras[0]);
+			$("#"+i+"7").attr("data-color","negras");
+		}
 	}
-}
+
+	// Esta funcion marca o desmarca la pieza que has seleccionado
+	function marcarPieza(casilla){
+		
+		if(_pieza=="" || casilla.hasClass("opt") || casilla.hasClass("dejarPieza") == true){
+			$("#casillas div").removeClass("dejarPieza");
+			$("#casillas div").removeClass("opt");
+			$("#casillas div").removeClass("mPieza");
+
+			return false;
+		}
+
+		// Si el color de la pieza es el mismo que al jugador que le toca,
+		if(_colorPieza == _quienToca){
+			// Elimino si hay alguna clase dejarPieza en el tablero
+			$("#casillas div").removeClass("dejarPieza");
+			$("#casillas div").removeClass("mPieza");
+
+			// Añado la clase dejar pieza sobre la ultima casilla que marco 
+			casilla.addClass("dejarPieza");
+			return true
+		}
+	}
+
+	function pieza(casilla){
+
+		var xIni = casilla.attr("id")[0];
+		var yIni = casilla.attr("id")[1];
+
+		switch(_pieza){
+			case "rey":
+				moveRey(xIni, yIni);
+				break;
+			case "dama":
+				moveDama(xIni, yIni);
+				break;		
+			case "alfil":
+				moveAlfil(xIni, yIni);
+				break;			
+			case "caballo":
+				moveCaballo(xIni, yIni);
+				break;				
+			case "torre":
+				moveTorre(xIni, yIni);		
+				break;			
+			default:
+				colorPeon(xIni, yIni);
+		}
+	}
 
 	// Esta funcion es para saber si es peon blanco o negro
 	function colorPeon(xIni, yIni){		
@@ -323,6 +321,8 @@ function pieza(casilla){
 	}
 
 	function peonMata (pM1, pM2){
+
+		// Comprobamos que no este vacio y que sea de diferente color para poder matarlo
 		if ($("#"+pM1).attr("data-color") != "" && $("#"+pM1).attr("data-color") != _quienToca) {				
 			$("#"+pM1).addClass("opt");
 			$("#"+pM1).addClass("mPieza");			
@@ -334,32 +334,37 @@ function pieza(casilla){
 	}
 
 	function peonCorona(casilla, casillaInicio, matar, numInicio, pieza2){
-			
-			var tagImgEmilinarPeon = casillaInicio[0].firstChild.firstChild;
-			casillaInicio[0].firstChild.removeChild(tagImgEmilinarPeon);
-			
-			var tituloLi = $(casilla[0].firstChild).attr("title");
-			var idLi = $(casilla[0].firstChild).attr("id");
-			
-			var letra = _quienToca.substring(0,1).toUpperCase();
-			var piezaElegida = $('input:radio[name=pieza]:checked').val();	
-			
 		
+		// Eliminamos el peon
+		var tagImgEmilinarPeon = casillaInicio[0].firstChild.firstChild;
+		casillaInicio[0].firstChild.removeChild(tagImgEmilinarPeon);
+		
+		// Recuperamos el id y titulo de la casilla
+		var tituloLi = $(casilla[0].firstChild).attr("title");
+		var idLi = $(casilla[0].firstChild).attr("id");
+		
+		// Recupero el color de quien juega, y la pieza seleccionada
+		var letra = _quienToca.substring(0,1).toUpperCase();
+		var piezaElegida = $('input:radio[name=pieza]:checked').val();	
+			
+		// Si corona matando, elimina la pieza
 		if (matar == true) {	
 			var tagImgEliminar = casilla[0].firstChild.firstChild;
 			casilla[0].firstChild.removeChild(tagImgEliminar);			
 		}
-			
-			$(casilla[0]).html('<li title="'+tituloLi+'" id="'+idLi+'"><img src="piezas/'+letra+piezaElegida+'.png"/></li>');
-			// Añade atributos
-			casilla.attr("data-color",_quienToca);
-			casilla.attr("data-pieza", piezaElegida);
 
-			// Vacia los atributos de la casilla donde estaba
-			casillaInicio.attr("data-color","");
-			casillaInicio.attr("data-pieza","");
+		// Añadimos la pieza que queremos
+		$(casilla[0]).html('<li title="'+tituloLi+'" id="'+idLi+'"><img src="piezas/'+letra+piezaElegida+'.png"/></li>');
+		
+		// Añade atributos
+		casilla.attr("data-color",_quienToca);
+		casilla.attr("data-pieza", piezaElegida);
 
-			colorAnotar("P", numInicio, pieza2, true, piezaElegida);
+		// Vacia los atributos de la casilla donde estaba
+		casillaInicio.attr("data-color","");
+		casillaInicio.attr("data-pieza","");
+
+		colorAnotar("P", numInicio, pieza2, true, piezaElegida);
 
 	}
 
@@ -602,15 +607,15 @@ function pieza(casilla){
 		if (coronacion == false) {
 			var element = document.createTextNode(pieza+letras[ini]+ini2+"-"+pieza2+letras[num1]+num2+" ");						
 		}else{
-			pCorono = piezaCoronar.substr(0,1).toUpperCase;
-			var element = document.createTextNode(letras[ini]+ini2+"-"+letras[num1]+num2+"="+pCorono);
+			pCorono = piezaCoronar.substr(0,1).toUpperCase();
+			var element = document.createTextNode(letras[ini]+ini2+"-"+letras[num1]+num2+"="+pCorono+" ");
 		}
 
 		td.appendChild(element);
 		tr.appendChild(td);
 	}
 
-	function anotacionN(pieza, numInicio, pieza2){
+	function anotacionN(pieza, numInicio, pieza2, coronacion, piezaCoronar){
 		var tabla = document.getElementById("planilla");
 		var td = document.createElement("TD");
 
@@ -620,7 +625,12 @@ function pieza(casilla){
 
 		var ini = numInicio.substr(0,1);
 		var ini2 = numInicio.substr(1,1);
-		var element = document.createTextNode(pieza+letras[ini]+ini2+"-"+pieza2+letras[num1]+num2+" ");
+		if (coronacion == false) {
+			var element = document.createTextNode(pieza+letras[ini]+ini2+"-"+pieza2+letras[num1]+num2+" ");						
+		}else{
+			pCorono = piezaCoronar.substr(0,1).toUpperCase();
+			var element = document.createTextNode(letras[ini]+ini2+"-"+letras[num1]+num2+"="+pCorono+" ");
+		}
 
 		td.appendChild(element);
 		tabla.lastChild.appendChild(td);
