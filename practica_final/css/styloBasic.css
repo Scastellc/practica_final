@@ -35,14 +35,80 @@ body {
 	color: red;
 }
 
-/*							 	   Footer								*/
-.footer{
-	padding-top: 20em !important;
-	color: #F0F8FF;
+li{
+	list-style-type: none
 }
-.footer a,p{
-	color: #8B4513;
+
+table {
+    width:100%;
 }
+table, th, td {
+    
+    border-collapse: collapse;
+}
+th, td {
+	border: solid 1px #A52A2A;
+    padding: 5px;
+    text-align: center;
+}
+table td:nth-child(odd) {
+    background-color: black;
+    color: white;
+}
+table td:nth-child(even) {
+   background-color:#fff;
+}
+table th:nth-child(odd){
+	text-align: center;
+    background-color: black;
+    color: white;
+}
+table th:nth-child(even) {
+	text-align: center;
+    color: black;
+    background-color: #fff;
+}
+.ListaJugadores{
+	color: red;
+}
+
+/*								Imagenes de incio 							*/
+
+.galeria a img{
+	filter: grayscale(1);
+	-webkit-filter:grayscale(1);
+}
+.galeria a:hover img{
+	filter: grayscale(0);
+	-webkit-filter:grayscale(0);
+}
+
+.galeria a{
+	display: block;
+	overflow: hidden;
+}
+
+ul.galeria img{height:200px;
+	width: 100%; 
+ 	border: 2px dashed black; 
+ 	background-color: white;
+ }	
+ 
+ul.galeria li{list-style-type:none;
+	border: 2px solid black;
+	padding: 20px; 
+	margin: 50px; 
+	width: 350px; 
+	background-color:#FFE4C4; 
+	box-shadow: 30px 20px 25px #8B4513; 
+	border-radius: 10px 5px; 
+	}
+
+ul.galeria span{display: block;
+	text-align: center;
+	padding-top: 20px;
+}
+
 
 /*						Iconos Sociales							*/
 .icons{
@@ -71,7 +137,11 @@ body {
     transform: rotate(360deg);
 	transition: all 0.5s;
 }
-li{
-	list-style-type: none
+/*							 	   Footer								*/
+.footer{
+	padding-top: 20em !important;
+	color: #F0F8FF;
 }
-
+.footer a,p{
+	color: #8B4513;
+}
