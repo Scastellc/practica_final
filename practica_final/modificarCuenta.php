@@ -1,41 +1,30 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
+  <html lang="es">
+    <head>
+     	<title>AjedrezBalear</title>
+    	<meta charset="utf-8">
 
-	<title>AjedrezBalear</title>
+	      <!--Bootstrap-->
 
-	<!-- 					jQuery library 							-->
-	<link href="css/estiloTablero.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
-	<!-- 					Jquery						 			
-	
-	<script src="js/jquery-1.7.2.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
--->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="js/funciones.js"></script>
-	<!-- 				Latest compiled and minified CSS 			-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+			<!-- 			Latest compiled and minified CSS 			-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-	<!--	 					Estilos								-->
-	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-	<link href="css/styloBasic.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-	
-	<!--	 					Favicon							-->
-	<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAEQARABEAEQARABEAEREAEQARABEAEQARABEAEQAAEQARABEAEQARABEAEQAREQARABEAEQARABEAEQARAAARABEAEQARABEAEQARABERABEAEQARABEAEQARABEAABEAEQARABEAEQARABEAEREAEQARABEAEQARABEAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+		<link href="css/styloBasic.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-	<?php 
-		include_once "php/funciones.php";
-	?>
-</head>
-<body>
- 	
- 	<!--						Menu								-->
-	
-	<div class="container-fluid juego">	
+			<!--	 					Estilos							-->
+		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+				<!--	 					Favicon							-->
+		<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAEQARABEAEQARABEAEREAEQARABEAEQARABEAEQAAEQARABEAEQARABEAEQAREQARABEAEQARABEAEQARAAARABEAEQARABEAEQARABERABEAEQARABEAEQARABEAABEAEQARABEAEQARABEAEREAEQARABEAEQARABEAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon" />
+		<?php 
+			include_once "php/funciones.php";
+		?>
+
+    </head>
+
+    <body>
+    <!--		Menu			-->
+	<div class="container-fluid">	
 		<div class="row">
 			<nav class="navbar navbar-inverse navbar-fixed-top menu">
 				<div class="container-fluid">
@@ -61,7 +50,7 @@
 						</ul>
 						<div id=divDer class='nav navbar-nav navbar-right'>	
 							
-							<?php			
+							<?php
 								usuario();
 							?>
 				    
@@ -122,158 +111,80 @@
 	      	</div>
 	    </div>
 	</div>
+
 	<?php 
-		// Le indico que si la session no esta iniciada que la inicie vacia
-		if (empty($_SESSION['cliente'])) {	
-			$_SESSION['cliente'] = new user();
-			$_SESSION['cliente'] -> setnombre("");	
+		
+		if (isset($_POST['finalizar'])) {
+			modificar();
+		}else{
+			perfil();
 		}
 
-		// Si esta vacia mostrara el invitado
-		if ($_SESSION['cliente'] -> getnombre() == "") {	
-			echo "<script type='text/javascript'>window.location.assign('login.php')</script>";
-		}
+		function perfil(){
+
 	?>
-	<?php
-		if (isset($_POST['enviarJugadores'])) {
-		
-			$player1 = ($_POST['login1']);
-			$player2 = ($_POST['login2']);
 
-			// Conexion a la bd
-			$bd = conexion();
-
-			// Consulta
-			$consu = "SELECT login FROM Usuario WHERE login = '" . $player1 . "'";
-			$consu2 = "SELECT login FROM Usuario WHERE login = '" . $player2 . "'";
-
-			// Hacemos la consulta
-			$result = sentencia($bd, $consu);	
-			$result2 = sentencia($bd, $consu2);
-
-			// Contamos el numero de filas que devuelve
-			$total = $result -> num_rows;
-			$total2 = $result2 -> num_rows;
-
-			if ($total > 0 && $total2 > 0 ) {
-				
-				?>
-				<div id="juego" class="container">
-					<div class="row">
-						<div class="col-lg-12 btn-group" id="piezaCoronar" data-toggle="buttons">
-							<h4>Elige pieza</h4>
-							<p>Cuando un peon vaya a coronar se podrá cambiar por la pieza que tengamos seleccionada.</p>		
-							<label class="btn btn-default active">
-								<input type="radio" name="pieza" title="Dama" value="dama" id="rDama" autocomplete="off" checked>
-								<span class="glyphicon glyphicon-queen col-lg-3"></span>
-							</label>
-							<label class="btn btn-default">
-								<input type="radio" name="pieza" title="Torre" value="torre" id="rTorre" autocomplete="off">
-								<span class="glyphicon glyphicon-tower col-lg-3"></span>
-							</label>
-
-							<label class="btn btn-default">
-								<input type="radio" name="pieza" title="Caballo" value="caballo" id="rCaballo" autocomplete="off">
-								<span class="glyphicon glyphicon-knight col-lg-3"></span>
-							</label>
-
-							<label class="btn btn-default">
-								<input type="radio" name="pieza" title="Alfil" value="alfil" id="rAlfil" autocomplete="off">
-								<span class="glyphicon glyphicon-bishop col-lg-3"></span>
-							</label>
-						</div>
-					</div>
-					<div class="row">
-						<div>&nbsp;</div>
-				   		<div class="col-lg-8">
-							<div class="col-md-12">
-								<div class="tablero">
-									<h1>¡Partida!</h1>
-									<ul id="casillas"></ul>
-								</div>
-							</div>
-							<div>&nbsp;</div>
-							<div>&nbsp;</div>
-							<div id="resultados" style="margin-left: 15%;">
-								<input type='button' class='btn btn-lg btn-danger col-lg-3 col-lg-push-1' value='1-0' onclick="anotarFinal('1-0');"/>	
-								<input type='button' class='btn btn-lg btn-success col-lg-3 col-lg-push-1' value='Tablas' onclick="anotarFinal('0,5-0,5');"/>
-								<input type='button' class='btn btn-lg btn-danger col-lg-3 col-lg-push-1' value='0-1' onclick="anotarFinal('0-1');" />								
-							</div>
-							
-						</div>
-						<div class="col-lg-4">
-							<div class="col-md-10 col-md-offset-2">
-								<form action="" method="POST" id="formAjax">
-									<div>
-										<h1>Anotación</h1>
-										<table>				  	
-										  	<thead id="jugadores">				
-										  		<th>Nº Jugadas</th>		  		
-										    	<th><?php echo $player1; ?></th>
-										    	<th><?php echo $player2; ?></th>
-										  	</thead>
-										  	<tbody id="planilla">										  		
-										  	</tbody>
-										</table><br>
-										<input type='hidden' id="jBlancas" name="jBlancas"/>
-										<input type='hidden' id="jNegras" name="jNegras"/>
-										<input type='hidden' id="aBlancas" name="aBlancas"/>
-										<input type='hidden' id="aNegras" name="aNegras"/>
-										<input type='hidden' id="aRes" name="aRes"/>
-										<input type='submit' value="Guardar Partida" class='btn btn-lg btn-info hide' id="mandar" name="mandarPartida"/>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>		
-				</div>
-
-		<?php
-				}else{
-					apuntarJugadores();
-				}
-				
-			}else if (isset($_POST['mandarPartida'])) {
-				$bd = conexion();
-
-				$player1 = $_POST['jBlancas'];
-				$player2 = $_POST['jNegras'];
-				$blancas = $_POST['aBlancas'];
-				$negras = $_POST['aNegras'];
-				$res = $_POST['aRes'];
-
-				$sql = 'INSERT INTO Partida(nick_blancas, nick_negras, resultado, move_blancas, move_negras) VALUES ("'.$player1.'","'.$player2.'","'.$res.'","'.$blancas.'","'.$negras.'")';
-
-				$result3 = sentencia($bd, $sql);
-				echo "<script type='text/javascript'>alert('La partida se guardo correctamente, puede volver a jugar otra!')</script>";
-				echo "<script type='text/javascript'>window.location.assign('partida.php')</script>";
-
-			}else{
-				apuntarJugadores();
-			}
-		
-		?>
-
-	<?php
-		function apuntarJugadores(){
-	?>
-		<div class="container">
+	<div class="container">
 		<div class="row formu"> 		
 			<div class='col-sm-10 col-sm-offset-1'>
 		        <div class='well well-lg'>
-					<h2>¿Jugadores?</h2>
-					<form action="" method="POST">
-		            	<span>Jugador 1 (blancas):</span>
-	                	<input type="text" name="login1" class='form-control' pattern="^([a-z]+[0-9]{0,2}){5,12}$" title="Minimo 5 letras, y dos num opcional" required><br>
-	               		<span>Jugador 2 (negras):</span>
-	                	<input type="text" name="login2" class='form-control' pattern="^([a-z]+[0-9]{0,2}){5,12}$" title="Minimo 5 letras, y dos num opcional" required>
-	                	<br>
-						<div class='text-center'>
-							<span style="color: red;">¡Recuerda, si introduces el login de los dos jugadores registrados se guardan en la base de datos para poder acceder después a ver la planilla!</span><br><br>				   
-                        	<input type='submit' class='btn btn-primary' title="Se activara cuando este el formulario completado y aceptado las condicones." name="enviarJugadores" id="enviarJugadores" value='Enviar'/>
-                        	<input type='reset' class='btn btn-danger' value='Cancelar' />		
-						</div>
-					</form>
+		        	<h1 class="text-center">Modificar datos</h1><br>
+					<h3 class="text-center" style="text-decoration: underline">Datos de la cuenta</h3>
+		            <form action="" method="POST" enctype="multipart/form-data">
+		                <div class='row'>
+		                    <div class='col-sm-10 col-sm-offset-1' id="formulario">
+		                        <div class='form-group'>
+		                            <label>Nick: <span style="color:#3B5998"><?php echo $_SESSION['cliente'] -> getlogin(); ?></span>
+		                            </label>
+		                        </div>
+								
+								<label>Fichero: </label>
+            					<input type="file" name="archivo"><span>Max 500000 bytes <strong>(500KB)</strong></span><br>
+            					<?php 
+
+            						// Si no hay foto muestra la foto estandar
+            						if ($_SESSION['cliente'] -> getavatar() == "ico.jpg") {
+												
+										echo "<img src='usuarios/cliente.png' alt='usuario' style='width: 75px;' ><br><br>";
+												
+										// Si hay foto mostrara la suya propia
+									}else{
+										
+										echo "<img src=' usuarios/" . $_SESSION['cliente'] -> getavatar() ."' alt='usuario' style='width: 75px;'><br><br>";						
+									}
+            					?>
+			                  	<div class='form-group'>
+		                            <label>Nombre:</label>
+		                           <input type='text' name="nombre" title="Nombre." class='form-control' pattern="^([A-Z][a-z]{2,})(\s+[A-Z][a-z]*)?$" value="<?php echo $_SESSION['cliente'] -> getnombre(); ?>"/>
+		                        </div>
+		                  		<div class='form-group'>
+		                            <label>Apellido:</label>
+		                           <input type='text' name="apellido" title="Apellido." class='form-control' pattern="^([A-Z][a-z]{2,})(\s+[A-Z][a-z]*)?$" value="<?php echo $_SESSION['cliente'] -> getapellido(); ?>"/>
+		                        </div>
+		                        <div class='form-group'>
+		                            <label>Correo Eletronico:</label>
+		                           <input type='text' name="email" title="Email." class='form-control' pattern="^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$" value="<?php echo $_SESSION['cliente'] -> getemail(); ?>"/>
+		                        </div>
+								
+		                		<h3 class="text-center" style="text-decoration: underline">Cambiar Contraseña</h3>    
+		                        <div class='form-group'>
+		                            <label>Antigua Contraseña:</label>
+		                            <input type='password' name="passA" title="Password." id="passA" class='form-control' placeholder="¿Cambiar contraseña?" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" onblur="passwdA(id);"/>
+		                        <div class='form-group'>
+		                            <label>Nueva Contraseña:</label>
+		                            <input type='password' name="passN" id="passN" title="Password." class='form-control' placeholder="¿Nueva contraseña?" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$"/>
+		                        </div>
+		                        	<div class='form-group'>
+		                            <label>Repite Nueva Contraseña:</label>
+		                            <input type='password' name="passRN" id="passRN" title="Password." class='form-control' placeholder="Repite la nueva contraseña" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" />
+		                        </div>
+
+		                        <div class='text-center'>
+		                            <input type='submit' class='btn btn-primary' name="finalizar" value='Modificar'/>
+		                        </div>
+		                    </div>
+		                </div>
+		            </form>
 		        </div>
 			</div>
 		</div>
@@ -281,7 +192,7 @@
 	<?php 
 		}
 	?>
-			<!-- 			Con este div separamos el footer				-->
+		<!-- 			Con este div separamos el footer				-->
 	<div class="clearfix"></div>
 
  	<!--		Footer		-->
@@ -312,6 +223,8 @@
 
 </body>
 	<!--Bootstrap-->
+	<!-- 					jQuery library 							-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 	<!-- 				Latest compiled JavaScript 					-->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
