@@ -95,15 +95,21 @@
 
 				<table>				  	
 				  	<thead>						  		
+				    	<th>Nº Jugadas</th>
 				    	<th>Blancas</th>
 				    	<th>Negras</th>
 				  	</thead>
 				  	<tbody>
 				  		<?php 
+				  		
 				  			foreach ($jBlancas as $key => $value) {
 				  				echo "<tr>";
-				  					echo "<td>".$value."</td>";
-				  					echo "<td>".@$jNegras[$key]."</td>";
+				  					if ($key != 0) {
+				  					echo "<td>".$key."</td>";
+					  					echo "<td>".$value."</td>";
+					  					echo "<td>".@$jNegras[$key]."</td>";
+				  						
+				  					}
 				  				echo "</tr>";
 				  			}
 				  		?>
