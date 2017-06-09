@@ -2,6 +2,8 @@
 var _quienToca = "blancas";
 var _colorPieza = "";
 var _pieza = "";
+// Esta variable es porque en mozilla me generaba problemas el event. 
+var event;
 
 // Creamos un array global para la anotacion de cada casilla
 var letras = ["","a", "b", "c", "d", "e", "f", "g", "h"];
@@ -13,6 +15,7 @@ $(document).ready(function(){
 
 	// Cuando pulse algun div que esta dentro de tablero
 	$("#casillas div").click(function($event){
+		event = $event;
 		var casilla = $($event.currentTarget);
 		// Recupero la pieza y el color
 		_pieza = casilla.attr("data-pieza");
@@ -57,12 +60,11 @@ $(document).ready(function(){
 			casillaInicio.attr("data-color","");
 			casillaInicio.attr("data-pieza","");
 
+			// Si es peon y llega a la ultima-primera fila 
 			if (_pieza == "peon" && (ultima == 8 || ultima == 1)) {
-
+				// Si el peon corona matando pieza, la variable matar se pasa como true.
 				peonCorona(casilla, casillaInicio, true, numInicio, pieza2);
-
 			}else{
-
 				var tagImgEliminar = casilla[0].firstChild.firstChild;
 				var tagImgAñadir = casillaInicio[0].firstChild.firstChild;
 
@@ -70,11 +72,12 @@ $(document).ready(function(){
 				casilla[0].firstChild.append(tagImgAñadir);
 				colorAnotar(pieza, numInicio, pieza2+"x");
 
+				// Comprobamos si la pieza a eliminar es rey.
 				var rey = tagImgEliminar.src.substr(63,3);
-
 				if (rey == "rey") {
 					alert(_quienToca + " han perdido");
 
+					// Comprobamos de que color fue la pieza matada, llamamos a la funcion anotarFinal con el resultado. 
 					if (_quienToca != "blancas") {					
 						var res = "1-0";
 						anotarFinal(res);
@@ -88,8 +91,9 @@ $(document).ready(function(){
 			// Hacer movimiento normal
 		}else{
 
+			// Si es peon y llega a la ultima-primera fila 
 			if (_pieza == "peon" && (ultima == 8 || ultima == 1)) {
-
+				// Si el peon corona sin matar pieza, la variable matar se pasa como false.
 				peonCorona(casilla, casillaInicio, false, numInicio, pieza2);
 
 			}else{
@@ -114,13 +118,15 @@ $(document).ready(function(){
 	// Esta funcion sirve para llamar a la funcion de anotar, y para saber a que jugador toca
 	function colorAnotar(pieza, numInicio, pieza2, corona ,piezaCoronar){
 		
-		// Cambiar turno				
+		// Si juegan blancas				
 		if( _quienToca == "blancas"){
 
-			// Si es un peon no se pone su inicial
+			// Si es un peon no se pone su inicial, resto de piezas lleva la incial.
 			if (pieza != "P") {
-				anotacionB(pieza, numInicio, pieza2, false, piezaCoronar);					
+				anotacionB(pieza, numInicio, pieza2, false, piezaCoronar);
+				// Si es peon y corona.				
 			}else if (corona == true) {
+				// No pasamos la inicial.
 				anotacionB("", numInicio, pieza2, true, piezaCoronar);
 			}else{
 				anotacionB("", numInicio, "", false, piezaCoronar);
@@ -128,6 +134,7 @@ $(document).ready(function(){
 			// Se cambia el turno a negras
 			_quienToca = "negras";
 
+			// Si juegan negras
 		}else{
 			if (pieza != "P") {
 				anotacionN(pieza, numInicio, pieza2, false, piezaCoronar);					
@@ -140,7 +147,6 @@ $(document).ready(function(){
 			_quienToca = "blancas";
 		}	
 	}
-
 
 	// Funcion para crear el tablero
 	function tablero(){	
@@ -207,7 +213,7 @@ $(document).ready(function(){
 			return false;
 		}
 
-		// Si el color de la pieza es el mismo que al jugador que le toca,
+		// Si el color de la pieza es el mismo que al jugador que le toca.
 		if(_colorPieza == _quienToca){
 			// Elimino si hay alguna clase dejarPieza en el tablero
 			$("#casillas div").removeClass("dejarPieza");
@@ -215,12 +221,13 @@ $(document).ready(function(){
 
 			// Añado la clase dejar pieza sobre la ultima casilla que marco 
 			casilla.addClass("dejarPieza");
-			return true
+			return true;
 		}
 	}
-
+	// Comprobamos que pieza es y mandamos a su funcion.
 	function pieza(casilla){
 
+		// Recuperamos x-y iniciales.
 		var xIni = casilla.attr("id")[0];
 		var yIni = casilla.attr("id")[1];
 
@@ -260,28 +267,34 @@ $(document).ready(function(){
 		}
 	}	
 
-	// Indico como puede mover el peon blanco
+	// Indico como puede mover el peon blanco.
 	function movePeonB(parseX, parseY){
 		
+		// Casillas donde el peon puede matar.
 		pM1 = (parseX + 1) + "" + (parseY + 1);
 		pM2 = (parseX - 1) + "" + (parseY + 1);
 
-		// Si el peon esta en segunda fila
+		// Si el peon esta en segunda fila.
 		if (parseY == 2) {		
 
+			// Opciones a comprobar.
 			var p1 = parseX + "" + (parseY + 1);
 			var p2 = parseX + "" + (parseY + 2);
 
+			// Si la primera opcion esta vacia le doy la clase.
 			if ($("#"+p1).attr("data-pieza")=="") {
 				$("#"+p1).addClass("opt");
+				// Si la primera esta vacia compruebo la segunda y le doy la clase.
 				if ($("#"+p2).attr("data-pieza")==""){
 					$("#"+p2).addClass("opt");			
 				}
 			}	
-
+			// Llamamos a la funcion de si puede matar.
 			peonMata(pM1, pM2);
 
+			// Ya no esta en su casilla de inicio.
 		}else{
+			// Opcion a comprobar.
 			var p1 = parseX + "" + (parseY + 1);
 
 			if ($("#"+p1).attr("data-pieza")=="") {
@@ -294,10 +307,11 @@ $(document).ready(function(){
 	// Indico como puede mover el peon negro
 	function movePeonN(parseX, parseY){
 		
+		// Casillas donde el peon puede matar.		
 		pM1 = (parseX + 1) + "" + (parseY - 1);
 		pM2 = (parseX - 1) + "" + (parseY - 1);
 
-		// Si el peon esta en segunda fila
+		// Si el peon esta en septima fila, lo mismo que el peon blanco.
 		if (parseY == 7) {						
 			var p1 = parseX + "" + (parseY - 1);
 			var p2 = parseX + "" + (parseY - 2);
@@ -307,10 +321,10 @@ $(document).ready(function(){
 				if ($("#"+p2).attr("data-pieza")==""){
 					$("#"+p2).addClass("opt");			
 				}
-			}	
-
+			}
 			peonMata(pM1, pM2);
-
+		
+		// Ya no esta en su casilla de inicio.
 		}else{
 			var p1 = parseX + "" + (parseY - 1);
 			if ($("#"+p1).attr("data-pieza")=="") {
@@ -320,8 +334,8 @@ $(document).ready(function(){
 		}
 	}
 
+	// Comprobamos si que el peon puede matar.
 	function peonMata (pM1, pM2){
-
 		// Comprobamos que no este vacio y que sea de diferente color para poder matarlo
 		if ($("#"+pM1).attr("data-color") != "" && $("#"+pM1).attr("data-color") != _quienToca) {				
 			$("#"+pM1).addClass("opt");
@@ -333,6 +347,7 @@ $(document).ready(function(){
 		}
 	}
 
+	// Esta funcion es la encargada de que si un peon llega a la ultima fila se cambie por la pieza deseada.
 	function peonCorona(casilla, casillaInicio, matar, numInicio, pieza2){
 		
 		// Eliminamos el peon
@@ -364,6 +379,7 @@ $(document).ready(function(){
 		casillaInicio.attr("data-color","");
 		casillaInicio.attr("data-pieza","");
 
+		// Llamamos a la funcion con la variable true porque va a coronar
 		colorAnotar("P", numInicio, pieza2, true, piezaElegida);
 
 	}
@@ -407,15 +423,17 @@ $(document).ready(function(){
 			}	
 		}
 	}
-
-	function moveDama(xIni, yIni){		
+	// Compruebo los movimientos de la dama.
+	function moveDama(xIni, yIni){
+		// Creo un objeto con arrays.		
 		var optDama = { "arr_0" : [], "arr_1" : [], "arr_2" : [], "arr_3" : [], "arr_4" : [], "arr_5" : [], "arr_6" : [], "arr_7" : []};
 
 		parseX = parseInt(xIni);
 		parseY = parseInt(yIni);
 
-		for (var x = 1; x < 8; x++) {
-			
+		// LLamaremos a la funcion comprobar pasandole el array y las posibles opciones.
+		for (var x = 1; x < 8; x++) {			
+			// Creamos mini objetos para luego trabajar mejor las posibles opciones
 			// Derecha
 			var p1 = {
 				x: (parseX + x),
@@ -471,18 +489,19 @@ $(document).ready(function(){
 				y: (parseY - x)
 			}
 			comprobar(optDama.arr_7, p8);
-
 		}
 	}
-
-	function moveAlfil(xIni, yIni){		
-	
+	// Compruebo los movimientos del alfil
+	function moveAlfil(xIni, yIni){				
+		// Creo un objeto con arrays.
 		var optAlfil = { "arr_0" : [], "arr_1" : [], "arr_2" : [], "arr_3" : [] };
+		
 		parseX = parseInt(xIni);
 		parseY = parseInt(yIni);
 
+		// LLamaremos a la funcion comprobar pasandole el array y las posibles opciones.
 		for (var x = 1; x < 8; x++) {
-
+			// Creamos mini objetos para luego trabajar mejor las posibles opciones
 			// Arriba-Derecha
 			var p1 = {
 				x: (parseX + x),
@@ -513,6 +532,7 @@ $(document).ready(function(){
 		}
 	}
 
+	// Comprobamos el caballo
 	function moveCaballo(xIni, yIni){		
 
 		var optCaballo = []; 
@@ -532,36 +552,43 @@ $(document).ready(function(){
 		var p7 = (parseX - 2)+ "" +(parseY + 1); 
 		var p8 = (parseX - 2)+ "" +(parseY - 1);
 
+		// Añadimos todas las opciones al array.
 		optCaballo.push(p1, p2, p3, p4, p5, p6, p7, p8);
 
+		// Comprobamos que no sea igual a, 0 o -1.
 		for (var i = 0; i < optCaballo.length; i++) {	
 			var descarte0 = optCaballo[i] , substring = "0";
 			if(descarte0.indexOf(substring) == -1){
 				var descarteNegativos = optCaballo[i] , substring = "-";
 				if(descarteNegativos.indexOf(substring) == -1){					
+					// Si la casilla que que vamos a marcar es diferente a nuestro color.
 					if ($("#"+optCaballo[i]).attr("data-color")!=_quienToca) {
+						// Entonces comprobaremos que este vacia la casilla
 						if ($("#"+optCaballo[i]).attr("data-pieza") == "") {
+							// Si esta vacia añadimos la clase opt
 							$("#"+optCaballo[i]).addClass("opt");
+							// Si no esta vacia solo puede haber piezas del color rival, añadiremos tambien la clase mPieza.
 						}else{
 							$("#"+optCaballo[i]).addClass("mPieza");
 							$("#"+optCaballo[i]).addClass("opt");
-						}
-												
+						}												
 					}
 				}
 			}
 		}
 	}
 
+	// Compruebo los movimientos de la torre.
 	function moveTorre(xIni, yIni){
-
+		// Creo un objeto con arrays.
+		var optTorre = { "arr_0" : [], "arr_1" : [], "arr_2" : [], "arr_3" : [] };
+		
 		parseX = parseInt(xIni);
 		parseY = parseInt(yIni);
 		
-		var optTorre = { "arr_0" : [], "arr_1" : [], "arr_2" : [], "arr_3" : [] };
-
+		// LLamaremos a la funcion comprobar pasandole el array y las posibles opciones.
 		for (var x = 1; x < 8; x++) {
-		
+			// Creamos mini objetos para luego trabajar mejor las posibles opciones
 			// Derecha
 			var p1 = {
 				x: (parseX + x),
@@ -592,29 +619,107 @@ $(document).ready(function(){
 		}
 	}
 
+
+	// Esta funcion se encarga de comprobar y añadir la clase a las casillas que se pueda mover. 
+	function comprobar(array, p){
+		
+		var piezaEnMedio = false;
+		var matarPieza = false;
+		
+		// Si x es mayor o igual a 1 y menor o igual a 8 
+		if(p.x <= 8 && p.x >= 1){
+			// Si y es mayor o igual a 1 y menor o igual a 8 
+			if (p.y <= 8 && p.y >= 1) {					
+				
+				// Añadimos la opcion al array
+				array.push(p.x+""+p.y);
+
+				// Creamos una variable para poder parar el for.
+				var exitFor = false;
+
+				// Recorremos el for
+				for (var i = 0; i < array.length ; i++) {
+					// Por cada pasada comprobara en que condicion esta exitFor, cuando este en true no entrara mas.
+					if(!exitFor){
+						// Si hay una pieza en medio cambiamos la variable.
+						if ($("#"+array[i]).attr("data-pieza")!="") {
+							piezaEnMedio = true;
+							// Comprbamos que el color sea diferente a nostros
+							if ($("#"+array[i]).attr("data-color")!=_quienToca) {							
+								// Podemos matarla.
+								matarPieza = true;
+							}
+							// Salimos del for para que no continue con las siguientes opciones.
+							exitFor = true;		
+						}
+
+						// Si no hay pieza en medio o la pieza enmedio se puede matar
+						if (!piezaEnMedio || (matarPieza && piezaEnMedio)) {
+							// Añadimos la clase opt
+							$("#"+array[i]).addClass("opt");
+							// Si se puede matar añadimso mPieza
+							if (matarPieza) {
+								$("#"+array[i]).addClass("mPieza");
+								// Cambiamos el estado de matar pieza.
+								matarPieza = false;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Esta variable la uso como contador para las jugadas.
+	var numJugada = 1;
 	function anotacionB(pieza, numInicio, pieza2, coronacion, piezaCoronar){
+		// Recupero la tabla.
 		var tabla = document.getElementById("planilla");
+		// Creo el elemento.
 		var tr = document.createElement("TR");
+		// Añado el elemento a la tabla.
 		tabla.appendChild(tr);
+		
+		// Creo los elementos td.
+		var tdNum = document.createElement("TD");
 		var td = document.createElement("TD");
 
+		// Recupero la casilla donde hemos colocado la pieza.
 		var num = $(event.currentTarget).attr("id");
 		var num1 = num.substr(0,1);
 		var num2 = num.substr(1,1);
 		
+		// Recupero la casilla de inicio
 		var ini = numInicio.substr(0,1);
 		var ini2 = numInicio.substr(1,1);
+		// Si no corona
 		if (coronacion == false) {
+			// Creo el elemento
 			var element = document.createTextNode(pieza+letras[ini]+ini2+"-"+pieza2+letras[num1]+num2+" ");						
+			// Si corona
 		}else{
+			// Cogo la inicial de la pieza a coronar
 			pCorono = piezaCoronar.substr(0,1).toUpperCase();
+			// Creo el elemento
 			var element = document.createTextNode(letras[ini]+ini2+"-"+letras[num1]+num2+"="+pCorono+" ");
 		}
-
+		// Creo el elemento para el contador de jugadas.
+		var elementNum = document.createTextNode(numJugada + " ");
+		
+		// Añadimos todo al td y al tr.
+		tdNum.appendChild(elementNum);
 		td.appendChild(element);
+		tr.appendChild(tdNum);
 		tr.appendChild(td);
+
+		$(td).addClass("Blancas");
+
+		// Incrementamos el valor de jugada.
+		numJugada = numJugada + 1;  
+
 	}
 
+	// Muy parecido a anotacionB pero no creo el elemento tr, sino que lo añado al ultimo hijo
 	function anotacionN(pieza, numInicio, pieza2, coronacion, piezaCoronar){
 		var tabla = document.getElementById("planilla");
 		var td = document.createElement("TD");
@@ -631,89 +736,99 @@ $(document).ready(function(){
 			pCorono = piezaCoronar.substr(0,1).toUpperCase();
 			var element = document.createTextNode(letras[ini]+ini2+"-"+letras[num1]+num2+"="+pCorono+" ");
 		}
-
+		
+		$(td).addClass("Negras");
+		
 		td.appendChild(element);
 		tabla.lastChild.appendChild(td);
 		
 	}
 
+	// Si la variable _quienToca esta en fin que se pondra cuando matemos al rey, o pulsemos sobre un boton para poner el resultado.
 	function anotarFinal(res){
 
 		if (_quienToca != "fin") {
+
 			var tabla = document.getElementById("planilla");
 			var tr = document.createElement("TR");
+			
 			tabla.appendChild(tr);
+			
 			var td = document.createElement("TD");
 			var element = document.createTextNode(res);
+			
 			td.appendChild(element);
+			$(td).attr("id", "resultado");
 			tabla.lastChild.appendChild(td);
+			
+			// Cambiamos la variable a fin para no poder mover mas piezas.
 			_quienToca = "fin";
 
+			// Mostramos el boton para poder guardar la partida.
 			$("#mandar").removeClass("hide");
+
+			// Llamamos a la funcion.
 			enviarPartida();
 		}
 	}
 
-
-	function comprobar(array, p){
-		var piezaEnMedio = false;
-		var matarPieza = false;
-		if(p.x <= 8 && p.x >= 1){
-
-			if (p.y <= 8 && p.y >= 1) {
-					
-				array.push(p.x+""+p.y);
-				var exitFor = false;
-
-				for (var i = 0; i < array.length ; i++) {
-					if(!exitFor){
-						if ($("#"+array[i]).attr("data-pieza")!="") {
-							piezaEnMedio = true;
-							if ($("#"+array[i]).attr("data-color")!=_quienToca) {							
-								matarPieza = true;
-							}
-							exitFor = true;		
-						}
-
-						if (!piezaEnMedio || (matarPieza && piezaEnMedio)) {
-							$("#"+array[i]).addClass("opt");
-							if (matarPieza) {
-								$("#"+array[i]).addClass("mPieza");
-
-								matarPieza = false;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
+	// Esta funcion se encarga rellenar los valores de los inputs ocultos que tengo, para despues recuperar el valor en php.
 	function enviarPartida(){		
 		
+		// Recupero la planilla entera
 		var tabla = $("#planilla").text();
 
-		var jugadas = tabla.split(" ");
-		var blancas = "";
+		var movimiento = "";
 		var negras = "";
+		var blancasMove = "";
+		var negrasMove = "";
+		var jugadas1 = []; 
+		var jugadas2 = []; 
 
-		for (var i = 10; i < (jugadas.length-1); i++) {
-						
-			if (i % 2 == 0) {
-				blancas = blancas + " " + jugadas[i];
-			}else{
-				negras = negras + " " + jugadas[i];
-			}				
+		// Corto 
+		var jugadas = tabla.split(" ");
+
+		// Añado al array
+		for (var i = 5; i < (jugadas.length-1); i++) {
+			jugadas1.push(jugadas[i]);		
 		}
 
+		// Con este for lo que logro es que solo se guarden la posicion del arrya que tiene un guion.
+		for (var i = 0; i < jugadas1.length; i++) {
+			var descarteNegativos = jugadas1[i] , substring = "-";
+			if(descarteNegativos.indexOf(substring) != -1){
+				if (jugadas1[i] % 2 != 0) {
+					// Guardo todas las jugadas en un string
+					movimiento = movimiento + " " + jugadas1[i];
+				}			
+			}
+		}
+		// Corto por la separacion.
+		var jugadas = movimiento.split(" ");
+
+		for (var i = 1; i < jugadas.length; i++) {
+			if (i % 2 == 0) {
+				negrasMove = negrasMove + " " + jugadas[i];
+			}else{
+				blancasMove = blancasMove + " " + jugadas[i];
+			}
+		}
+
+		// Añado jugadores.
 		var jugadores = $("#jugadores")[0].innerText;
 		var jugador = jugadores.split("	");
-		var jBlancas = jugador[0];
-		var jNegras = jugador[1];
+		var jBlancas = jugador[1];
+		var jNegras = jugador[2];
 		
 		$("#jBlancas").attr("value", jBlancas);
 		$("#jNegras").attr("value", jNegras);
-		$("#aBlancas").attr("value", blancas);
-		$("#aNegras").attr("value", negras);
-		$("#aRes").attr("value", $(jugadas).last()[0]);		
+
+		// Añado movimientos.
+		$("#aBlancas").attr("value", blancasMove);
+		$("#aNegras").attr("value", negrasMove);
+
+		console.log(jugadas1);
+		// Añado resultado.	
+		var result = $("#resultado")[0].innerText;
+		$("#aRes").attr("value", result);
 	}
