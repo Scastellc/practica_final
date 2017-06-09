@@ -59,7 +59,7 @@
 		    </nav>
 	    </div>
 	</div>
-				<!-- 				Modal de carta							-->
+				<!-- 			Modal de como funciona					-->
 	<div class="modal fade" id="Cfun" role="dialog">
 	    <div class="modal-dialog">
 			<!-- 					Contenedor del modal 				-->
@@ -70,7 +70,14 @@
 	        	</div>
 	        	<div class="modal-body">
 	        		<div class="text-center">
-			        	<p> "Como funciona y eso..." </p>
+			        	<p> 1- Estar registrado en la página.</p>
+			        	<p> 2- Encontrar a algun amigo que quiera jugar, también podriamos jugar contra nosotros mismos!</p>
+			        	<p>	3- Una vez logrado los dos pasos anteriores iremos al apartado de jugar, al entrar nos pedirá que <strong>introduzcamos los nicks de dos usuarios registrados.</strong> En caso de jugar contra nosotros mismos pondremos nuestro nick en ambos campos! </p>
+			        	<p>	4- Jugar la partida</p>
+			        	<p> 5- Dentro de la partida podremos hacer tablas o abandonar, este juego de ajedrez tiene unas normas más peculiares, aquí si se gana comiendo el rey, y no hay enroques.</p>
+			        	<p> 6- ¡¡Importante a la hora de coronar un peon tener seleccionada antes la pieza que queremos coronar!!</p>
+			        	<p> 7- Una vez terminada la partida podremos guardarla dandole al boton de pone: "Guardar Partida" que aparecerá al finalizar la partida, para en un futuro volver a ver la planilla, en el apartado de mis partidas</p>
+			        	<p> Por último <strong>toca disfrutar entre amigos a ver quien és más bueno!!</strong></p>	
 	        		</div>
 	        	</div>
 	        	<div class="modal-footer modal-right">
@@ -97,7 +104,7 @@
 			<div class="row formu"> 		
 				<div class='col-sm-10 col-sm-offset-1'>
 			        <div class='well well-lg'>
-			        	<h2>Iniciar session!</h2>
+			        	<h2>Iniciar session</h2>
 						<span>Por favor, introduzca su login de usuario y su contraseña para validar el acceso a la web</span><br><br>
 			            <form action="" method="POST">
 			                <div class='row'>
