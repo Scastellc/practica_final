@@ -101,6 +101,9 @@
 	        	</div>
 	        	<div class="modal-body">
 	        		<div class="text-center">
+			        	<?php 
+			        		misPartidas();			       
+			        	?>			       
 			        	<p> 1- Mis partidas.</p>			       
 	        		</div>
 	        	</div>
