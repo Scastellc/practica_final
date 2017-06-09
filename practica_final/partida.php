@@ -83,14 +83,14 @@
 	        	</div>
 	        	<div class="modal-body">
 	        		<div class="text-center">
-			        	<p> 1- Estar registrado en la pagina.</p>
-			        	<p> 2- Encontrar ha alguien que quiera jugar!</p>
-			        	<p>	3- Una vez logrado los dos pasos anteriores iremos al apartado de jugar, al entrar nos pedira que <strong>introduzcamos los nicks de dos usuarios registrados</strong> </p>
-			        	<p>	4- Jugar la partida uno contra el otro a ver quien sabe mas!</p>
-			        	<p> 5- Dentro de la partida podremos hacer tablas o abandonar, este juego de ajedrez tiene unas normas mas peculiares, aquí si se gana comiendo el rey, y no hay enroques.</p>
+			        	<p> 1- Estar registrado en la página.</p>
+			        	<p> 2- Encontrar a algun amigo que quiera jugar, también podriamos jugar contra nosotros mismos!</p>
+			        	<p>	3- Una vez logrado los dos pasos anteriores iremos al apartado de jugar, al entrar nos pedirá que <strong>introduzcamos los nicks de dos usuarios registrados.</strong> En caso de jugar contra nosotros mismos pondremos nuestro nick en ambos campos! </p>
+			        	<p>	4- Jugar la partida</p>
+			        	<p> 5- Dentro de la partida podremos hacer tablas o abandonar, este juego de ajedrez tiene unas normas más peculiares, aquí si se gana comiendo el rey, y no hay enroques.</p>
 			        	<p> 6- ¡¡Importante a la hora de coronar un peon tener seleccionada antes la pieza que queremos coronar!!</p>
-			        	<p> 7- Una vez terminada la partida podremos guardar la partida dandole al boton de pone: "Guardar Partida" que aparecera al finalizar la partida, para en un futuro volver a ver la planilla, en el apartado de mis partidas</p>
-			        	<p> Por ultimo <strong>toca disfrutar entre amigos a ver quien es mas bueno!!</strong></p>	
+			        	<p> 7- Una vez terminada la partida podremos guardarla dandole al boton de pone: "Guardar Partida" que aparecerá al finalizar la partida, para en un futuro volver a ver la planilla, en el apartado de mis partidas</p>
+			        	<p> Por último <strong>toca disfrutar entre amigos a ver quien és más bueno!!</strong></p>	
 	        		</div>
 	        	</div>
 	        	<div class="modal-footer modal-right">
@@ -162,6 +162,7 @@
 					<div class="row">
 						<div class="col-lg-12 btn-group" id="piezaCoronar" data-toggle="buttons">
 							<h4>Elige pieza</h4>
+							<p>Cuando un peon vaya a coronar se podrá cambiar por la pieza que tengamos seleccionada.</p>		
 							<label class="btn btn-default active">
 								<input type="radio" name="pieza" title="Dama" value="dama" id="rDama" autocomplete="off" checked>
 								<span class="glyphicon glyphicon-queen col-lg-3"></span>
@@ -179,7 +180,7 @@
 							<label class="btn btn-default">
 								<input type="radio" name="pieza" title="Alfil" value="alfil" id="rAlfil" autocomplete="off">
 								<span class="glyphicon glyphicon-bishop col-lg-3"></span>
-							</label>		
+							</label>
 						</div>
 					</div>
 					<div class="row">
@@ -187,7 +188,7 @@
 				   		<div class="col-lg-8">
 							<div class="col-md-12">
 								<div class="tablero">
-									<h1>Partida!</h1>
+									<h1>¡Partida!</h1>
 									<ul id="casillas"></ul>
 								</div>
 							</div>
@@ -200,21 +201,18 @@
 							</div>
 							
 						</div>
-						<div class="col-lg-3">
+						<div class="col-lg-4">
 							<div class="col-md-10 col-md-offset-2">
 								<form action="" method="POST" id="formAjax">
 									<div>
-										<h1>Anotacion</h1>
+										<h1>Anotación</h1>
 										<table>				  	
-										  	<thead id="jugadores">						  		
+										  	<thead id="jugadores">				
+										  		<th>Nº Jugadas</th>		  		
 										    	<th><?php echo $player1; ?></th>
 										    	<th><?php echo $player2; ?></th>
 										  	</thead>
-										  	<tbody id="planilla">
-										  		<tr>
-										  			<td>Blancas</td>
-										  			<td>Negras</td>
-										  		</tr>
+										  	<tbody id="planilla">										  		
 										  	</tbody>
 										</table><br>
 										<input type='hidden' id="jBlancas" name="jBlancas"/>
@@ -234,8 +232,8 @@
 				}else{
 					apuntarJugadores();
 				}
-			}else if (isset($_POST['mandarPartida'])) {
 				
+			}else if (isset($_POST['mandarPartida'])) {
 				$bd = conexion();
 
 				$player1 = $_POST['jBlancas'];
@@ -271,7 +269,7 @@
 	                	<input type="text" name="login2" class='form-control' pattern="^([a-z]+[0-9]{0,2}){5,12}$" title="Minimo 5 letras, y dos num opcional" required>
 	                	<br>
 						<div class='text-center'>
-							<span style="color: red;">Recuerda, si introduces el login de los dos jugadores registrados se guardan en la base de datos para poder acceder despues a ver la planilla!</span><br><br>				   
+							<span style="color: red;">¡Recuerda, si introduces el login de los dos jugadores registrados se guardan en la base de datos para poder acceder después a ver la planilla!</span><br><br>				   
                         	<input type='submit' class='btn btn-primary' title="Se activara cuando este el formulario completado y aceptado las condicones." name="enviarJugadores" id="enviarJugadores" value='Enviar'/>
                         	<input type='reset' class='btn btn-danger' value='Cancelar' />		
 						</div>
