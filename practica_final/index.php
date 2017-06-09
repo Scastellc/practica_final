@@ -45,7 +45,7 @@
 								<a href="noticias.php">Noticias</a>
 							</li>
 							<li>
-								<a href="" data-toggle="modal" data-target="#Cfun">¿Como funciona?</a>
+								<a href="" data-toggle="modal" data-target="#Cfun">¿Cómo funciona?</a>
 							</li>
 						</ul>
 						<div id=divDer class='nav navbar-nav navbar-right'>	
@@ -72,14 +72,14 @@
 	        	</div>
 	        	<div class="modal-body">
 	        		<div class="text-center">
-			        	<p> 1- Estar registrado en la pagina.</p>
-			        	<p> 2- Encontrar ha alguien que quiera jugar!</p>
-			        	<p>	3- Una vez logrado los dos pasos anteriores iremos al apartado de jugar, al entrar nos pedira que <strong>introduzcamos los nicks de dos usuarios registrados</strong> </p>
-			        	<p>	4- Jugar la partida uno contra el otro a ver quien sabe mas!</p>
-			        	<p> 5- Dentro de la partida podremos hacer tablas o abandonar, este juego de ajedrez tiene unas normas mas peculiares, aquí si se gana comiendo el rey, y no hay enroques.</p>
+			        	<p> 1- Estar registrado en la página.</p>
+			        	<p> 2- Encontrar a algun amigo que quiera jugar, también podriamos jugar contra nosotros mismos!</p>
+			        	<p>	3- Una vez logrado los dos pasos anteriores iremos al apartado de jugar, al entrar nos pedirá que <strong>introduzcamos los nicks de dos usuarios registrados.</strong> En caso de jugar contra nosotros mismos pondremos nuestro nick en ambos campos! </p>
+			        	<p>	4- Jugar la partida</p>
+			        	<p> 5- Dentro de la partida podremos hacer tablas o abandonar, este juego de ajedrez tiene unas normas más peculiares, aquí si se gana comiendo el rey, y no hay enroques.</p>
 			        	<p> 6- ¡¡Importante a la hora de coronar un peon tener seleccionada antes la pieza que queremos coronar!!</p>
-			        	<p> 7- Una vez terminada la partida podremos guardar la partida dandole al boton de pone: "Guardar Partida" que aparecera al finalizar la partida, para en un futuro volver a ver la planilla, en el apartado de mis partidas</p>
-			        	<p> Por ultimo <strong>toca disfrutar entre amigos a ver quien es mas bueno!!</strong></p>	
+			        	<p> 7- Una vez terminada la partida podremos guardarla dandole al boton de pone: "Guardar Partida" que aparecerá al finalizar la partida, para en un futuro volver a ver la planilla, en el apartado de mis partidas</p>
+			        	<p> Por último <strong>toca disfrutar entre amigos a ver quien és más bueno!!</strong></p>	
 	        		</div>
 	        	</div>
 	        	<div class="modal-footer modal-right">
@@ -114,15 +114,35 @@
 	<div class="panel-body">
 	    <div class="panel2">
 	        <div class="row"> 
-				<div class="col-md-6" style="margin-left: 20%;">
-					<h1 class="col-md-12">Bienvenidos</h1>
-					<p> Esta pagina esta creada por Salva Castell, alumno de FPGS de Desarrollo de aplicaciones web.</p>
-					<p>Por el momento, en la pagina se puede jugar una partida de ajedrez en el mismo pc.</p>
-					<p>Poco a poco integrando mas propiedades a la pagina, como por ejemplo que se pueda jugar online, que se pueda añadir un modulo y incluso jugar contra el modulo, ejercicios de tactica para mejorar nuestro nivel.</p>
-					<p> Actualizare las noticias para estar teneros lo informados posible</p>
-					<p>Y recordar esta pagina es para pasarlo bien y encima es gratiuta!</p>
+				<h1 class="col-md-12" style="margin-left: 20%;">Bienvenidos</h1>
+				<p style="margin-left: 20%;"> Os voy a relatar 4 normas basicas del juego</p>
+				<div class="col-md-4">
+					<ul class="galeria">
+						<li><a href="intro/sinLogin.png" target="_blanck"><img src="intro/sinLogin.png" alt=""></a><span>No podremos jugar hasta que estemos logueados, por eso nos mandará a iniciar sesión.</span></li>
+						<li><a href="intro/anotacion.png" target="_blanck"><img src="intro/anotacion.png" alt=""></a><span>Cada vez una pieza se mueva se anotará en nuestra planilla. Al finalizar la partida aparecerá el boton para guardar la partida</span></li>
+						<li><a href="intro/movimientoC.png" target="_blanck"><img src="intro/movimientoC.png" alt=""></a><span>Cuando una pieza tenga distintas casillas donde mover, se marcarán con una opacidad y bordeo en la casilla. El caballo como podemos apreciar se mueve en "L" y es la única pieza que puede saltar.</span></li>
+						<li><a href="intro/movimientoT.png" target="_blanck"><img src="intro/movimientoT.png" alt=""></a><span>La torre se mueve por columnas o filas.</span></li>
+						<li><a href="intro/peonInicioCaptura.png" target="_blanck"><img src="intro/peonInicioCaptura.png" alt=""></a><span>Como captura el peon cuando esta en su casilla inicial.</span></li>
+					</ul>					
 				</div>
-				 
+				<div class="col-md-4">
+					<ul class="galeria">
+						<li><a href="intro/2user.png" target="_blanck"><img src="intro/2user.png" alt=""></a><span>Una vez logeuados. Al pulsar a jugar nos pedira que introduzcamso el nick de ambos jugadores.</span></li>
+						<li><a href="intro/resultados.png" target="_blanck"><img src="intro/resultados.png" alt=""></a><span>Los posibles resultados antes de que la partida acabe, tambien acabara la partida si ha un jugador le captura el rey. </span></li>
+						<li><a href="intro/movimientoR.png" target="_blanck"><img src="intro/movimientoR.png" alt=""></a><span>El rey solo va de una casilla en una, cuando una pieza enemiga podramso matar, nos aparecera en rojo, al igual que nos aparece en rojo nuestra pieza seleccionada.</span></li>
+						<li><a href="intro/movimientoD.png" target="_blanck"><img src="intro/movimientoD.png" alt=""></a><span>La dama es como el alfil y la torre, en diagonal, en columnas y filas.</span></li>
+						<li><a href="intro/movimientoP.png" target="_blanck"><img src="intro/movimientoP.png" alt=""></a><span>Como se mueve el peon despues de haberse movido una vez.</span></li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<ul class="galeria">
+						<li><a href="intro/elegirPieza.png" target="_blanck"><img src="intro/elegirPieza.png" alt=""></a><span>Antes de coronar un peon debemos seleccionar que pieza queremos cambiar por el peón.</span></li>
+						<li><a href="intro/tablero.png" target="_blanck"><img src="intro/tablero.png" alt=""></a><span>Este es nuestro tablero para poder jugar nuestra partida, empiezan las blancas y después juegan negras, es una jugada por cada color.</span></li>
+						<li><a href="intro/movimientoA.png" target="_blanck"><img src="intro/movimientoA.png" alt=""></a><span>El alfil se mueve en diagonal y siempre por su color.</span></li>
+						<li><a href="intro/peonInicio.png" target="_blanck"><img src="intro/peonInicio.png" alt=""></a><span>El peón si esta en su casilla de inicio se podra mover de uno o dos pasos.</span></li>
+						<li><a href="intro/peonCap.png" target="_blanck"><img src="intro/peonCap.png" alt=""></a><span>El peón solo puede capturar en diagonal.</span></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
